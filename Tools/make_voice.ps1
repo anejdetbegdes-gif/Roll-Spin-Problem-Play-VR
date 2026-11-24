@@ -1,4 +1,4 @@
-param([string]$OutDir)
+﻿param([string]$OutDir)
 Add-Type -AssemblyName System.Speech
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 
@@ -7,7 +7,6 @@ $lines = [ordered]@{
   'odd_or_even' = 'odd, or even?'; 'which_number_is_even' = 'Which number is even?'; 'which_number_is_odd' = 'Which number is odd?';
   'is_even' = 'is even.'; 'is_odd' = 'is odd.';
   'roll_the_die' = 'Your turn! Grab the die with your left hand, then let go.';
-  'extra_roll' = 'You won an extra roll! Roll the die again.';
   'spin_the_wheel' = 'Spin the wheel! Hold the handle with your left hand, and press the trigger.';
   'robo_idea' = 'Robo has an idea! Touch Robo with your left hand.';
   'robo_check' = 'Can you help Robo check it? Press correct, or incorrect.';

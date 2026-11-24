@@ -29,7 +29,8 @@ namespace RSPP
     ///     and a picture (ten frames). There is no penalty and the game continues.
     ///   - Adaptive difficulty: see <see cref="AdaptiveDifficulty"/>.
     ///   - Star spaces and the wheel's MINI segment start a mini challenge of three short questions.
-    ///     2 correct = 1 star. 3 correct = 1 star and an extra roll.
+    ///     2 correct = 1 star. 3 correct = 2 stars. Robo takes one of the three questions.
+    ///   - Every star flies into the star jar; at FINISH the stars fly out and frame the result panel.
     ///   - The wheel's BONUS segment gives a free star.
     ///   - Sometimes Robo (the simulated AI Helper) has an idea: the player touches Robo, hears the
     ///     suggestion and decides if it is right.
@@ -51,6 +52,7 @@ namespace RSPP
         public AudioSource StarAudioSource;
         public Effects Effects;
         public Narrator Narrator;
+        public StarJar Jar;
 
         public GameState State { get; private set; }
         public int Stars { get; private set; }
@@ -68,11 +70,11 @@ namespace RSPP
         private MathQuestion currentQuestion;
         private HelperSuggestion currentSuggestion;
         private Action afterNext;               // what the Next button does
-        private bool extraRollActive;           // the current roll is an extra roll (move only)
 
         private bool miniChallengeActive;
         private int miniQuestionIndex;
         private int miniCorrectCount;
+        private int miniHelperIndex;            // which of the mini challenge questions Robo takes
 
         // Numbers for the summary on the FINISH screen.
         private int mathAnswered;
@@ -131,6 +133,7 @@ namespace RSPP
             Handle.SetHighlighted(false);
             Robot.ShowMessage("");
             Panel.ShowMessage("", "", null);
+            if (Jar != null) Jar.ResetJar();
         }
 
         private void BeginNewGame()
@@ -151,50 +154,35 @@ namespace RSPP
             currentQuestion = null;
             currentSuggestion = null;
             afterNext = null;
-            extraRollActive = false;
             miniChallengeActive = false;
 
             Dice.ResetToHome();
             Wheel.ResetWheel();
             Token.PlaceOn(0);
+            if (Jar != null) Jar.ResetJar();
 
             Panel.SetStars(Stars);
             Panel.SetLevel(difficulty.Level);
-            BeginRollPhase(false);
+            BeginRollPhase();
         }
 
         // ------------------------------------------------------------------ Step 1: roll
 
-        private void BeginRollPhase(bool extraRoll)
+        private void BeginRollPhase()
         {
-            extraRollActive = extraRoll;
             State = GameState.WaitingForRoll;
 
             Dice.RollEnabled = true;
             Dice.SetHighlighted(true);
             Handle.SetHighlighted(false);
             Robot.ShowMessage(Loc.F("robo_idle", HelperName));
-
-            if (extraRoll)
-            {
-                Panel.ShowMessage(Loc.T("extra_roll_title"), Loc.T("extra_roll_msg"), null);
-                Say("extra_roll");
-            }
-            else
-            {
-                Panel.ShowMessage(Loc.T("your_turn_title"), Loc.T("your_turn_msg"), null);
-                Say("roll_the_die");
-            }
+            Panel.ShowMessage(Loc.T("your_turn_title"), Loc.T("your_turn_msg"), null);
+            Say("roll_the_die");
         }
 
         private void StartNormalTurn()
         {
-            BeginRollPhase(false);
-        }
-
-        private void StartExtraRollTurn()
-        {
-            BeginRollPhase(true);
+            BeginRollPhase();
         }
 
         private void OnRollStarted()
@@ -239,11 +227,6 @@ namespace RSPP
             if (Position >= Board.LastIndex)
             {
                 FinishGame();
-            }
-            else if (extraRollActive)
-            {
-                // An extra roll only moves the token. The next normal turn starts right away.
-                BeginRollPhase(false);
             }
             else if (Board.IsStarSpace(Position))
             {
@@ -402,8 +385,17 @@ namespace RSPP
             {
                 Audio.Play(Sfx.Correct);
                 Haptics.PulseRight(0.5f, 0.1f);
-                AddStar();
-                feedback = Loc.F(helperWasRight ? "helper_right_good" : "helper_wrong_good", HelperName, currentQuestion.Explanation);
+                if (miniChallengeActive)
+                {
+                    // In a mini challenge a good check counts as one of the right answers (no separate star).
+                    miniCorrectCount++;
+                    feedback = Loc.F(helperWasRight ? "helper_right_good_mini" : "helper_wrong_good_mini", HelperName, currentQuestion.Explanation);
+                }
+                else
+                {
+                    AddStar();
+                    feedback = Loc.F(helperWasRight ? "helper_right_good" : "helper_wrong_good", HelperName, currentQuestion.Explanation);
+                }
             }
             else
             {
@@ -416,7 +408,8 @@ namespace RSPP
             if (Narrator != null) Narrator.SayExplanation(currentQuestion, goodJudgment ? "great_checking" : "lets_check");
 
             State = GameState.Feedback;
-            afterNext = StartNormalTurn;
+            if (miniChallengeActive) afterNext = ContinueMiniChallenge;
+            else afterNext = StartNormalTurn;
             Panel.ShowFeedback(goodJudgment, feedback, -1, -1, Loc.T("next"));
 
             // A picture explanation whenever the helper or the student got it wrong.
@@ -430,7 +423,7 @@ namespace RSPP
             Handle.SetHighlighted(false);
             ShowResultMessage(Loc.T("mini_title"),
                 Loc.F("mini_intro", reason, GameConfig.MiniChallengeQuestions,
-                    GameConfig.MiniChallengeCorrectForStar, GameConfig.MiniChallengeCorrectForExtraRoll),
+                    GameConfig.MiniChallengeCorrectForStar, GameConfig.MiniChallengeCorrectForTwoStars),
                 Loc.T("go"), StartMiniChallenge);
             Say("mini_challenge");
         }
@@ -440,17 +433,31 @@ namespace RSPP
             miniChallengeActive = true;
             miniQuestionIndex = 0;
             miniCorrectCount = 0;
+            // Robo always takes exactly one of the mini challenge questions (a random one).
+            miniHelperIndex = UnityEngine.Random.Range(0, GameConfig.MiniChallengeQuestions);
             AskMiniQuestion();
         }
 
         private void AskMiniQuestion()
         {
             currentQuestion = questions.NextRandom(difficulty.Level);
-            currentSuggestion = null;
-            State = GameState.Question;
-            Panel.ShowQuestion(Loc.F("mini_q", miniQuestionIndex + 1, GameConfig.MiniChallengeQuestions),
-                currentQuestion, true, null);
-            SayQuestionThen(null);
+            string title = Loc.F("mini_q", miniQuestionIndex + 1, GameConfig.MiniChallengeQuestions);
+
+            if (miniQuestionIndex == miniHelperIndex)
+            {
+                currentSuggestion = helperLogic.MakeSuggestion(currentQuestion);
+                State = GameState.HelperAsk;
+                Panel.ShowQuestion(title, currentQuestion, false, Loc.F("robo_idea", HelperName));
+                Robot.ShowWaitingForTouch();
+                SayQuestionThen("robo_idea");
+            }
+            else
+            {
+                currentSuggestion = null;
+                State = GameState.Question;
+                Panel.ShowQuestion(title, currentQuestion, true, null);
+                SayQuestionThen(null);
+            }
         }
 
         private void ContinueMiniChallenge()
@@ -465,13 +472,14 @@ namespace RSPP
             miniChallengeActive = false;
 
             bool winsStar = miniCorrectCount >= GameConfig.MiniChallengeCorrectForStar;
-            bool winsExtraRoll = miniCorrectCount >= GameConfig.MiniChallengeCorrectForExtraRoll;
+            bool winsTwoStars = miniCorrectCount >= GameConfig.MiniChallengeCorrectForTwoStars;
             string score = Loc.F("mini_score", miniCorrectCount, GameConfig.MiniChallengeQuestions);
 
             if (winsStar) AddStar();
+            if (winsTwoStars) StartCoroutine(AddStarLater(0.5f));
 
-            if (winsExtraRoll)
-                ShowResultMessage(Loc.T("mini_title"), score + "\n" + Loc.T("mini_perfect"), Loc.T("next"), StartExtraRollTurn);
+            if (winsTwoStars)
+                ShowResultMessage(Loc.T("mini_title"), score + "\n" + Loc.T("mini_perfect"), Loc.T("next"), StartNormalTurn);
             else if (winsStar)
                 ShowResultMessage(Loc.T("mini_title"), score + "\n" + Loc.T("mini_star"), Loc.T("next"), StartNormalTurn);
             else
@@ -490,6 +498,10 @@ namespace RSPP
             Haptics.PulseBoth(0.6f, 0.3f);
             if (Effects != null) Effects.Confetti();
 
+            // The stars fly out of the jar and frame the result panel.
+            if (Jar != null)
+                Jar.Celebrate(GameConfig.QuestionPanelPosition + new Vector3(0f, 0f, -0.06f), 1.04f, 0.82f);
+
             afterNext = BeginNewGame;
             Robot.ShowMessage(Loc.T("robo_done"));
             Say("you_did_it");
@@ -506,8 +518,17 @@ namespace RSPP
             Stars++;
             Panel.SetStars(Stars);
             Panel.PulseStars();
-            if (Effects != null) Effects.StarPop(Token.transform.position + Vector3.up * 0.10f);
+            // The new star flies from the game piece into the star jar.
+            Vector3 from = Token.transform.position + Vector3.up * 0.10f;
+            if (Jar != null) Jar.AddStar(from);
+            else if (Effects != null) Effects.StarPop(from);
             StartCoroutine(StarChimeRoutine());
+        }
+
+        private IEnumerator AddStarLater(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            AddStar();
         }
 
         private IEnumerator StarChimeRoutine()

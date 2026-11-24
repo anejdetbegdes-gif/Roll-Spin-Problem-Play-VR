@@ -84,8 +84,11 @@ namespace RSPP
             Shapes.Box("Chalk", room, new Vector3(0.6f, 1.205f, boardZ - 0.09f), new Vector3(0.08f, 0.02f, 0.02f), Color.white);
 
             BuildWindow(room, -size * 0.5f + wall * 0.5f);
-            BuildBookshelf(room, new Vector3(size * 0.5f - 0.2f, 0f, 0.0f));
-            BuildBookshelf(room, new Vector3(size * 0.5f - 0.2f, 0f, 1.3f));
+            // The shelves stand 3 cm in front of the wall: if the back panel touched the wall surface,
+            // the two would flicker ("z-fighting") because the GPU cannot tell which one is in front.
+            float shelfX = size * 0.5f - wall * 0.5f - 0.17f - 0.03f;
+            BuildBookshelf(room, new Vector3(shelfX, 0f, 0.0f));
+            BuildBookshelf(room, new Vector3(shelfX, 0f, 1.3f));
             BuildPosters(room, boardZ);
             BuildClock(room, new Vector3(0f, 2.65f, boardZ - 0.03f));
             BuildCeilingLights(room, height);

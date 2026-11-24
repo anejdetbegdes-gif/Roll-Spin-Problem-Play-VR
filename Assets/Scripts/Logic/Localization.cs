@@ -94,12 +94,6 @@ namespace RSPP
                 "¡Lanza el dado!\nTómalo con tu mano IZQUIERDA y luego suéltalo.",
                 "Zarı at!\nSOL elinle tut, sonra bırak.",
                 "Lance le dé !\nPrends-le avec ta main GAUCHE, puis lâche-le." } },
-            { "extra_roll_title", new[] { "Extra Roll!", "¡Tiro extra!", "Ekstra zar!", "Lancer bonus !" } },
-            { "extra_roll_msg", new[] {
-                "You won an extra roll!\nGrab the die with your LEFT hand and roll it again.",
-                "¡Ganaste un tiro extra!\nToma el dado con tu mano IZQUIERDA y lánzalo otra vez.",
-                "Ekstra zar kazandın!\nZarı SOL elinle tut ve tekrar at.",
-                "Tu as gagné un lancer bonus !\nPrends le dé avec ta main GAUCHE et lance-le encore." } },
             { "rolling", new[] { "Rolling...", "Lanzando...", "Zar atılıyor...", "Le dé roule..." } },
             { "rolled_title", new[] { "You rolled a {0}!", "¡Sacaste un {0}!", "{0} attın!", "Tu as fait {0} !" } },
             { "rolled_one", new[] {
@@ -194,6 +188,15 @@ namespace RSPP
                 "¡Muy bien revisado! Ayudaste a {0} a corregir un error. {1} ¡Ganaste una estrella!",
                 "Harika kontrol! {0}'nun hatasını düzeltmesine yardım ettin. {1} Bir yıldız kazandın!",
                 "Bien vérifié ! Tu as aidé {0} à corriger une erreur. {1} Tu gagnes une étoile !" } },
+            // Mini challenge: a good check counts as a right answer (no separate star).
+            { "helper_right_good_mini", new[] {
+                "Yes! {0} was right. {1}", "¡Sí! {0} tenía razón. {1}",
+                "Evet! {0} haklıydı. {1}", "Oui ! {0} avait raison. {1}" } },
+            { "helper_wrong_good_mini", new[] {
+                "Great checking! You helped {0} fix a mistake. {1}",
+                "¡Muy bien revisado! Ayudaste a {0} a corregir un error. {1}",
+                "Harika kontrol! {0}'nun hatasını düzeltmesine yardım ettin. {1}",
+                "Bien vérifié ! Tu as aidé {0} à corriger une erreur. {1}" } },
             { "helper_right_bad", new[] {
                 "{0} was right this time. {1} Checking is always a good idea!",
                 "Esta vez {0} tenía razón. {1} ¡Revisar siempre es buena idea!",
@@ -220,17 +223,17 @@ namespace RSPP
             // ---------------------------------------------------------------- Mini challenge and finish
             { "mini_title", new[] { "Mini Challenge", "Minidesafío", "Mini Görev", "Mini défi" } },
             { "mini_intro", new[] {
-                "{0}\nAnswer {1} quick questions. Get {2} right to win a star. Get all {3} right to win an extra roll too!",
-                "{0}\nResponde {1} preguntas rápidas. Acierta {2} para ganar una estrella. ¡Acierta las {3} para ganar también un tiro extra!",
-                "{0}\n{1} kısa soruyu cevapla. {2} doğru yaparsan bir yıldız kazanırsın. Hepsini doğru yaparsan ekstra zar da kazanırsın!",
-                "{0}\nRéponds à {1} questions rapides. {2} bonnes réponses = une étoile. Les {3} bonnes = une étoile et un lancer bonus !" } },
+                "{0}\nAnswer {1} quick questions. Get {2} right to win a star. Get all {3} right to win 2 stars!",
+                "{0}\nResponde {1} preguntas rápidas. Acierta {2} para ganar una estrella. ¡Acierta las {3} para ganar 2 estrellas!",
+                "{0}\n{1} kısa soruyu cevapla. {2} doğru yaparsan bir yıldız kazanırsın. Hepsini doğru yaparsan 2 yıldız kazanırsın!",
+                "{0}\nRéponds à {1} questions rapides. {2} bonnes réponses = une étoile. Les {3} bonnes = 2 étoiles !" } },
             { "mini_landed", new[] { "You landed on a star space!", "¡Caíste en una casilla de estrella!", "Yıldızlı bir kareye geldin!", "Tu es sur une case étoile !" } },
             { "mini_wheel", new[] { "The wheel picked a Mini Challenge!", "¡La ruleta eligió un minidesafío!", "Çark bir Mini Görev seçti!", "La roue a choisi un mini défi !" } },
             { "mini_q", new[] { "Mini Challenge  {0} of {1}", "Minidesafío  {0} de {1}", "Mini Görev  {0}/{1}", "Mini défi  {0} sur {1}" } },
             { "mini_score", new[] { "You got {0} of {1} right.", "Acertaste {0} de {1}.", "{1} sorudan {0} tanesini bildin.", "Tu as {0} bonnes réponses sur {1}." } },
             { "mini_perfect", new[] {
-                "Perfect! You win a star AND an extra roll!", "¡Perfecto! ¡Ganas una estrella Y un tiro extra!",
-                "Mükemmel! Bir yıldız VE ekstra zar kazandın!", "Parfait ! Tu gagnes une étoile ET un lancer bonus !" } },
+                "Perfect! You win 2 stars!", "¡Perfecto! ¡Ganas 2 estrellas!",
+                "Mükemmel! 2 yıldız kazandın!", "Parfait ! Tu gagnes 2 étoiles !" } },
             { "mini_star", new[] { "Well done! You win a star!", "¡Bien hecho! ¡Ganas una estrella!", "Aferin! Bir yıldız kazandın!", "Bien joué ! Tu gagnes une étoile !" } },
             { "mini_try", new[] { "Nice try! Keep practicing.", "¡Buen intento! Sigue practicando.", "Güzel deneme! Çalışmaya devam.", "Bel essai ! Continue à t'entraîner." } },
             { "finish_title", new[] { "FINISH!", "¡META!", "BİTİŞ!", "ARRIVÉE !" } },

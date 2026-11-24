@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace RSPP
 {
@@ -22,26 +23,18 @@ namespace RSPP
     /// </summary>
     public class AIHelperLogic
     {
-        /// <summary>Chance that the helper speaks up on a normal question.</summary>
-        public const double AppearChance = 0.4;
-
-        /// <summary>The helper always appears after this many normal questions without it.</summary>
-        public const int MaxQuestionsWithoutHelper = 2;
-
         /// <summary>
-        /// Chance that a suggestion is correct. Our EDN 303 collaborator suggested the helper should be
-        /// wrong about one third of the time, so correct answers are reinforced and students stay confident.
+        /// Suggestions come in groups of this size, and exactly one in each group is wrong
+        /// (in a random position). Our EDN 303 collaborator suggested the helper should be wrong about
+        /// one third of the time, so correct answers are reinforced and students stay confident.
+        /// Using groups (instead of a dice roll) guarantees that students really see Robo's mistakes.
         /// </summary>
-        public const double CorrectChance = 2.0 / 3.0;
-
-        /// <summary>After this many correct suggestions in a row the next one is wrong, so students see both cases.</summary>
-        public const int MaxCorrectInARow = 3;
+        public const int GroupSize = 3;
 
         private readonly Random rng;
-        private int questionsSinceHelper;
+        private readonly List<bool> group = new List<bool>();   // true = this suggestion is correct
         private bool helperWasLast;
         private bool lastSuggestionCorrect;
-        private int correctStreak;
 
         public AIHelperLogic() : this(new Random()) { }
 
@@ -53,47 +46,28 @@ namespace RSPP
 
         public void Reset()
         {
-            questionsSinceHelper = 0;
+            group.Clear();
             helperWasLast = false;
             lastSuggestionCorrect = true;
-            correctStreak = 0;
         }
 
         /// <summary>
-        /// Decides if the helper makes a suggestion for the next normal question.
-        /// "Occasionally": never twice in a row, but at least every third question.
+        /// Decides if the helper makes a suggestion for the next normal question:
+        /// every second normal question (mini challenges choose their own helper question).
         /// </summary>
         public bool ShouldAppear()
         {
-            bool appear;
-            if (helperWasLast) appear = false;
-            else if (questionsSinceHelper >= MaxQuestionsWithoutHelper) appear = true;
-            else appear = rng.NextDouble() < AppearChance;
-
-            if (appear)
-            {
-                questionsSinceHelper = 0;
-                helperWasLast = true;
-            }
-            else
-            {
-                questionsSinceHelper++;
-                helperWasLast = false;
-            }
+            bool appear = !helperWasLast;
+            helperWasLast = appear;
             return appear;
         }
 
         /// <summary>Builds a suggestion that is sometimes right and sometimes deliberately wrong.</summary>
         public HelperSuggestion MakeSuggestion(MathQuestion question)
         {
-            bool correct = rng.NextDouble() < CorrectChance;
-
-            // Never wrong twice in a row (keeps students confident),
-            // and never right more than MaxCorrectInARow times in a row (so they still see mistakes).
-            if (!lastSuggestionCorrect) correct = true;
-            else if (correctStreak >= MaxCorrectInARow) correct = false;
-
-            correctStreak = correct ? correctStreak + 1 : 0;
+            if (group.Count == 0) RefillGroup();
+            bool correct = group[0];
+            group.RemoveAt(0);
             lastSuggestionCorrect = correct;
 
             int index = question.CorrectIndex;
@@ -109,6 +83,15 @@ namespace RSPP
             suggestion.IsCorrect = correct;
             suggestion.Text = Loc.F("suggest", question.Choices[index]);
             return suggestion;
+        }
+
+        /// <summary>Makes a new group: GroupSize - 1 correct suggestions and one wrong one, shuffled.</summary>
+        private void RefillGroup()
+        {
+            int wrongPosition = rng.Next(0, GroupSize);
+            // Never wrong twice in a row: if the last suggestion was wrong, the new group cannot start with one.
+            if (!lastSuggestionCorrect && wrongPosition == 0) wrongPosition = rng.Next(1, GroupSize);
+            for (int i = 0; i < GroupSize; i++) group.Add(i != wrongPosition);
         }
     }
 }

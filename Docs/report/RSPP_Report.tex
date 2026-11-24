@@ -96,6 +96,9 @@ Level cap rises along the board & Harder questions appear near FINISH \\
 35 spaces, 6 star spaces (was 26, 4) & Games were too short \\
 Helper named ``Robo'', wrong 1/3 of the time & EDN 303 feedback \\
 Touch Robo with the left hand to ask & Asking the AI becomes an action \\
+Robo on every 2nd question, 1 of 3 in mini & Robo appeared too rarely \\
+No extra roll; 3/3 in mini = 2 stars & Team play-test \\
+Star jar reward and finish celebration & Make success visible \\
 Ten-frame picture after mistakes & EDN 303 feedback \\
 English narration & EDN 303 feedback (accessibility) \\
 Entrance screen, 4 languages & Team decision \\
@@ -110,7 +113,7 @@ Entrance screen, 4 languages & Team decision \\
 The game targets Meta Quest 2/3 and was built with Unity 6000.3.22f1 (Built-in Render Pipeline), the OpenXR plug-in, and the XR Interaction Toolkit 3.3. The scene is built from C\# at start-up from primitive shapes, so all positions, sizes, and rules live in one configuration file. Pure game logic (question generation, difficulty, helper decisions, translations) has no Unity dependencies and was tested outside Unity.
 
 \subsection{Interaction and game loop}
-The player sits at a virtual table (Fig.~\ref{fig:classroom}). Everything the left hand touches is on the left: the die, the SPIN handle, the wheel, and the robot. The menu for the right-hand ray is on the right. A turn is: grab and release the die (a scripted tumble so the die cannot fall off the table), the piece moves automatically, pull the SPIN handle, the wheel selects addition, subtraction, odd/even, a mini challenge, or a bonus star, and the child answers with the ray. A correct answer earns a star; a wrong answer shows the correct answer, a one-sentence explanation, and a ten-frame picture (red and blue counters for addition, taken-away counters for subtraction, counters in pairs for odd/even). There is no penalty. The table height adapts to the player's eye height, and a thumbstick click re-centres the view.
+The player sits at a virtual table (Fig.~\ref{fig:classroom}). Everything the left hand touches is on the left: the die, the SPIN handle, the wheel, and the robot. The menu for the right-hand ray is on the right. A turn is: grab and release the die (a scripted tumble so the die cannot fall off the table), the piece moves automatically, pull the SPIN handle, the wheel selects addition, subtraction, odd/even, a mini challenge, or a bonus star, and the child answers with the ray. A correct answer earns a star; a wrong answer shows the correct answer, a one-sentence explanation, and a ten-frame picture (red and blue counters for addition, taken-away counters for subtraction, counters in pairs for odd/even). There is no penalty. Every star flies from the game piece into a glass star jar on the table, so progress is always visible; at the finish the stars fly out one by one with a rising chime and form a spinning frame around the result panel. The reward exists only within the game (no currency, shop, or unlocks). The table height adapts to the player's eye height, and a thumbstick click re-centres the view.
 
 \begin{figure}[t]
 \centering
@@ -123,7 +126,7 @@ The player sits at a virtual table (Fig.~\ref{fig:classroom}). Everything the le
 Four levels keep all numbers within 20: small sums within 10, sums within 10, teen numbers without crossing ten (e.g., $12+5$), and crossing ten (e.g., $8+7$, $15-8$). Two correct math answers in a row raise the level by one and two wrong answers lower it by one. A level cap rises with the board position (Levels 2, 3, and 4 in the first, middle, and last third), so the hardest problems appear near the finish while a struggling child still moves down. Judging the helper does not change the level.
 
 \subsection{Robo, the simulated AI Helper}
-On about four in ten normal questions the robot, Robo, has an idea: its antenna blinks and it waves. The child touches Robo with the left hand to see the suggestion (``I think the answer is 14!'') and presses Correct or Incorrect (Fig.~\ref{fig:robo}). Robo is wrong about one time in three, never twice in a row, and never right more than three times in a row. Robo reacts kindly (``Oops, I made a mistake. Thank you for helping me!''). Robo is a script, not an AI model, and has no network connection and no voice.
+On every second normal question, and on one of the three questions of every mini challenge, the robot, Robo, has an idea: its antenna blinks and it waves. The child touches Robo with the left hand to see the suggestion (``I think the answer is 14!'') and presses Correct or Incorrect (Fig.~\ref{fig:robo}). Suggestions come in groups of three with exactly one wrong suggestion in a random position, so Robo is wrong one time in three and never twice in a row; an earlier version that drew each suggestion at random was right five times in a row during our own play-testing, so a child might never see a mistake. Robo reacts kindly (``Oops, I made a mistake. Thank you for helping me!''). Robo is a script, not an AI model, and has no network connection and no voice.
 
 \begin{figure}[t]
 \centering

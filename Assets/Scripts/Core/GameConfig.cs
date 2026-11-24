@@ -46,8 +46,11 @@ namespace RSPP
         /// <summary>Correct answers needed in a mini challenge to win a star.</summary>
         public const int MiniChallengeCorrectForStar = 2;
 
-        /// <summary>Correct answers needed in a mini challenge to also win an extra roll.</summary>
-        public const int MiniChallengeCorrectForExtraRoll = 3;
+        /// <summary>Correct answers needed in a mini challenge to win 2 stars instead of 1.</summary>
+        public const int MiniChallengeCorrectForTwoStars = 3;
+
+        /// <summary>The star jar stands at the front-right corner of the table.</summary>
+        public static readonly Vector3 StarJarPosition = new Vector3(0.62f, 0f, 0.28f);
 
         /// <summary>The eight wheel segments, counter-clockwise starting at the right-hand side.</summary>
         public static readonly WheelSegment[] WheelLayout =

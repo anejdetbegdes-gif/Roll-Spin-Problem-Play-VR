@@ -91,6 +91,7 @@ namespace RSPP
             game.Fitter = fitter;
             game.Effects = effects;
             game.Narrator = narrator;
+            game.Jar = StarJar.Create(playArea, audioManager);     // star reward jar on the table
             game.StarAudioSource = audioManager.CreateSpatialSource(panel.transform);
             game.Initialize();
 

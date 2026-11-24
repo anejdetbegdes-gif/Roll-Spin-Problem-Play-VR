@@ -166,9 +166,9 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 
 - **Correct answer:** +1 star. **Incorrect answer:** the correct answer turns green and a short explanation is shown (for example "8 plus 5 equals 13. Try the next question!"). No penalty.
 - **Wheel:** 8 segments — 2 × Addition, 2 × Subtraction, 2 × Odd/Even, 1 × MINI, 1 × BONUS (free star).
-- **Mini challenge:** starts on the six star spaces or from the wheel's MINI segment. Three short questions. 2 correct = 1 star; 3 correct = 1 star **and** an extra roll.
-- **Extra roll:** one more roll that only moves the token (no wheel, no star-space challenge), then the normal turn continues.
-- **Feedback effects:** a gold star pops up over the game piece and the star counter pulses for every star; the level label flashes when the level changes; confetti and a summary (stars, math answers right, AI Helper checks right, highest level) at FINISH.
+- **Mini challenge:** starts on the six star spaces or from the wheel's MINI segment. Three short questions; Robo always takes one of them (a good check counts as a right answer). 2 right = 1 star; 3 right = **2 stars**. (Change from the proposal: the extra-roll reward was removed after play-testing.)
+- **Star jar** (reward): a glass jar on the front-right corner of the table. Every star flies from the game piece into the jar, so progress is visible. At FINISH the stars fly out one by one, with a rising chime and a small vibration, and form a spinning frame around the result panel. The reward exists only inside the game (no currency, shop or unlocks).
+- **Feedback effects:** the star counter pulses for every star; the level label flashes when the level changes; confetti and a summary (stars, math answers right, Robo checks right, highest level) at FINISH.
 
 **Adaptive Difficulty** (`Assets/Scripts/Logic/AdaptiveDifficulty.cs`) — rule-based, four levels, all numbers within 20, plain `if` statements, no machine learning:
 
@@ -192,8 +192,8 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 **This is not real AI.** There is no API, no language model, no network access, no speech. It is about 60 lines of C# in `Assets/Scripts/Logic/AIHelperLogic.cs` plus a robot built from boxes (`Assets/Scripts/UI/AIHelperRobot.cs`).
 
 - The robot has a name, **Robo** (`GameConfig.HelperName`), and speaks like a friendly classmate who asks for help: *"Can you help Robo check it?"*
-- On some normal questions (about 4 in 10; never twice in a row; at least every third question) Robo has an idea instead of the answer buttons. The student touches Robo with the left hand, and Robo's bubble shows a suggestion, for example **"I think the answer is 14!"** (Change from the proposal: the suggestion used to appear by itself; touching Robo makes "asking the AI" an action the student takes.)
-- The code takes the current question, knows the real answer, and decides at random whether to show the correct answer or one of the wrong choices on purpose. Robo is **wrong about one time in three**, never wrong twice in a row, and never right more than three times in a row.
+- On every second normal question, and on one question of every mini challenge, Robo has an idea instead of the answer buttons. The student touches Robo with the left hand, and Robo's bubble shows a suggestion, for example **"I think the answer is 14!"** (Change from the proposal: the suggestion used to appear by itself; touching Robo makes "asking the AI" an action the student takes.)
+- The code takes the current question, knows the real answer, and shows either the correct answer or one of the wrong choices on purpose. Suggestions come in groups of three with **exactly one wrong** suggestion in a random position, so Robo is wrong one time in three and students are sure to see its mistakes; it is never wrong twice in a row. (Play-testing showed that a pure 1-in-3 dice roll could leave Robo right five times in a row.)
 - The player presses **Correct** or **Incorrect**. Immediate feedback follows, always with the real answer, e.g. *"Great checking! You helped Robo fix a mistake. 8 plus 5 equals 13."* Robo answers kindly: *"Oops, I made a mistake. Thank you for helping me!"* When Robo was wrong, the picture explanation (ten frames) is shown.
 - A good judgment earns a star.
 - Teaching point: AI tools can be useful, but their answers should be checked, not trusted automatically.
@@ -217,7 +217,6 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 - **Narration** (EDN 303 suggestion, for students with dyslexia or dyscalculia): in English, questions, instructions and the worked answer after a mistake are read aloud; the **Listen** button repeats the question. The 43 clips in `Assets/Resources/Voice/` were generated offline with the Windows built-in voice "Microsoft Zira" (`Tools/make_voice.ps1`) and are joined word by word, so the headset needs no internet or speech engine. Robo itself has no voice. If the helper's name is changed, regenerate the clips that say "Robo".
 - **Game length**: about 10 rolls per game on average (35 spaces). Board length is set by `BoardColumns` in `GameConfig.cs`.
 - **Quest Link in the Editor**: with Direct3D12 and *Single Pass Instanced* the headset showed only the background colour. The PC (Windows) OpenXR **Render Mode is set to Multi-pass**, which fixed it. The Android (Quest build) setting is unchanged.
-- An extra roll that lands on a star space does not start a mini challenge.
 - Left hand = objects, right hand = UI is fixed (as in the proposal); there is no left-handed mode.
 - Sounds are simple generated tones. No narration or voice.
 - The thumbstick re-centre and the automatic table height are small comfort additions not written in the proposal; both live in `PlayAreaFitter.cs` and are easy to remove.
@@ -236,7 +235,7 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 | Check | How | Result |
 |---|---|---|
 | Question generator, adaptive difficulty, AI helper logic | The real `Assets/Scripts/Logic/*.cs` files compiled with .NET 8 (C# 9) and **executed**: 300,000 generated questions checked for correct answers, level ranges, unique choices, valid indices; difficulty rules; 200,000 helper decisions | Passed |
-| Game flow (`GameManager.cs`) | The real `GameManager.cs` **executed** headless with stand-in versions of the Unity components: 4,000 complete simulated games from Start to FINISH, including random out-of-turn inputs, Start/Restart, mini challenges, extra rolls, bonus, helper checks, stars, level changes | Passed |
+| Game flow (`GameManager.cs`) | The real `GameManager.cs` **executed** headless with stand-in versions of the Unity components: 4,000 complete simulated games from Start to FINISH, including random out-of-turn inputs, Start/Restart, mini challenges, extra rolls, bonus, helper checks, stars, level changes. **Run on an earlier version (2 levels, 26 spaces); the tests have not been updated to the current rules yet.** | Passed (earlier version) |
 | All 26 scripts: syntax and type consistency | Compiled with the Roslyn C# compiler against hand-written signature stubs of the Unity / XRI APIs used | 0 errors |
 | XR Interaction Toolkit / Input System / XR Core Utils API names | Each class, property and enum used was looked up in the source code of the exact package versions listed in section 2 | Matched |
 | Die face orientation and wheel pointer math | Checked numerically in a separate script | Passed |
