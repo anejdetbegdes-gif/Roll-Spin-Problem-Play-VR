@@ -8,15 +8,33 @@ A small, single-player educational VR board game for second-grade students, buil
 
 **Rationale.** The game is the VR version of *Roll, Spin, Problem, Play*, a physical math board game designed by EDN 303 students Hannah Terry and Bailey Clark. Young students practice addition, subtraction and odd/even numbers more willingly when the practice is a game they can touch: in VR they grab and roll a die, pull a handle to spin a wheel, and watch their game piece move. We added three things to the original idea: **adaptive difficulty** (questions get harder or easier with the student's answers), **mini challenges** on star spaces, and a **simulated AI Helper** robot that sometimes suggests a wrong answer on purpose, so students learn that AI tools are useful but must be checked. The player stays in one place (seated or standing) at a table, which keeps the experience comfortable and simple.
 
-## Video / Screenshots
+## Screenshots
 
-> TODO (team): record these on the headset and replace the placeholders. Put the images in `Docs/`.
+**1. Entrance:** the game starts in the school hallway. The child chooses a language and enters the classroom.
 
-![Board, die and wheel](Docs/screenshot1.png)
+![Entrance hallway with language choice](Docs/screenshot_entrance.png)
 
-![Math question with answer buttons](Docs/screenshot2.png)
+**2. The classroom from the player's seat:** board, die (left hand), SPIN handle and wheel, Robo the AI Helper, and the question panel.
 
-![AI Helper suggestion](Docs/screenshot3.png)
+![Classroom, board, wheel and Robo](Docs/screenshot_classroom.png)
+
+**3. Robo, the simulated AI Helper:** the child touches Robo with the left hand to hear its idea, then decides if Robo is right.
+
+![Robo suggests an answer: Correct or Incorrect](Docs/screenshot_robo.png)
+
+**4. Learning from mistakes:** after a wrong answer the right answer turns green and a ten-frame picture explains it.
+
+![Wrong answer with ten-frame picture](Docs/screenshot_wrong_answer.png)
+
+**5. Star jar:** every star flies into the jar on the table. The menu (Back to Menu, Music, Sound) is on the right.
+
+![Star jar and menu](Docs/screenshot_starjar.png)
+
+**6. FINISH:** the stars fly out of the jar and frame the result panel, with a summary of the game.
+
+![Finish screen with stars around the panel](Docs/screenshot_finish.png)
+
+*Screenshots were captured in the Unity Editor (desktop view of one eye) with the automatic tour in menu **RSPP → Capture README Screenshots**; the headset shows the same scene in stereo.*
 
 ---
 
