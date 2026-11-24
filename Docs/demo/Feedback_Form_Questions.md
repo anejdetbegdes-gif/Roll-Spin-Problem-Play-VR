@@ -1,7 +1,9 @@
-# Roll, Spin, Problem, Play – Demo Feedback Form (Microsoft Forms)
+# Roll, Spin, Problem, Play – Demo Feedback Form (Google Forms)
 
-Five short questions that help us improve the game. The QR code on the poster links to this form.
-Settings: **Anyone can respond**, **do not record names**.
+Five short questions that help us improve the game. The QR code on the poster links to this form:
+https://forms.gle/AsZioN3ddqYAW4PK8
+Settings: anyone with the link can respond, no sign-in, **email addresses are not collected**, results summary hidden from respondents.
+A last section links to the GitHub repository for more details.
 
 ---
 
