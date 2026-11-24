@@ -58,6 +58,18 @@ namespace RSPP
         public int Stars { get; private set; }
         public int Position { get; private set; }
 
+        /// <summary>The question on screen now (read by the Editor screenshot tour).</summary>
+        public MathQuestion CurrentQuestion
+        {
+            get { return currentQuestion; }
+        }
+
+        /// <summary>Robo's current suggestion, or null (read by the Editor screenshot tour).</summary>
+        public HelperSuggestion CurrentSuggestion
+        {
+            get { return currentSuggestion; }
+        }
+
         private static string HelperName
         {
             get { return GameConfig.HelperName; }
