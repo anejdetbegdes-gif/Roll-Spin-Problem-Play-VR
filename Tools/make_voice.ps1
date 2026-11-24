@@ -1,4 +1,4 @@
-﻿param([string]$OutDir)
+﻿param([string]$OutDir, [string[]]$Only)
 Add-Type -AssemblyName System.Speech
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 
@@ -17,6 +17,12 @@ $lines = [ordered]@{
 }
 $numbers = 'zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'
 for ($i = 0; $i -le 20; $i++) { $lines["n$i"] = $numbers[$i] }
+# Level 5 (ages 10-12): tens for numbers up to 99 (47 = "forty" + "seven") and "times" for 6 x 7.
+$tens = @{ 30 = 'thirty'; 40 = 'forty'; 50 = 'fifty'; 60 = 'sixty'; 70 = 'seventy'; 80 = 'eighty'; 90 = 'ninety' }
+foreach ($t in 30, 40, 50, 60, 70, 80, 90) { $lines["n$t"] = $tens[$t] }
+$lines['times'] = 'times'
+# Optional: pass a list of clip names to make only those clips.
+if ($Only) { $keep = [ordered]@{}; foreach ($k in $Only) { $keep[$k] = $lines[$k] }; $lines = $keep }
 
 function Trim-Wav([string]$path) {
   $b = [IO.File]::ReadAllBytes($path)

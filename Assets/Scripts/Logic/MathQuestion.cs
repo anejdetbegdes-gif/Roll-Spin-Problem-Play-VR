@@ -16,7 +16,7 @@ namespace RSPP
     {
         public QuestionCategory Category;
 
-        /// <summary>Difficulty level this question was generated for (1-4).</summary>
+        /// <summary>Difficulty level this question was generated for (1-5).</summary>
         public int Level;
 
         /// <summary>
@@ -25,6 +25,15 @@ namespace RSPP
         /// </summary>
         public int A;
         public int B;
+
+        /// <summary>Level 5 odd/even only: the question asks about FactorA x FactorB (= A). Zero otherwise.</summary>
+        public int FactorA;
+        public int FactorB;
+
+        public bool IsProduct
+        {
+            get { return FactorA > 0 && FactorB > 0; }
+        }
 
         /// <summary>The correct result (sum or difference). For odd/even: 1 = odd, 0 = even.</summary>
         public int Answer;

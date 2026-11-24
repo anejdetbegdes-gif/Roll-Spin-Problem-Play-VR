@@ -12,7 +12,7 @@
     <circle cx="48" cy="-47" r="19" fill="#1F3A7A"/><circle cx="95" cy="0" r="19" fill="#1F3A7A"/><circle cx="142" cy="47" r="19" fill="#1F3A7A"/>
   </g>
   <text x="430" y="205" font-size="132" font-weight="bold" fill="#FFFFFF">Roll, Spin, Problem, Play</text>
-  <text x="434" y="290" font-size="50" fill="#FFD95A">An adaptive VR math board game with a simulated AI Helper for second graders</text>
+  <text x="434" y="290" font-size="50" fill="#FFD95A">An adaptive VR math board game with a simulated AI Helper, for ages 10–12</text>
   <text x="3430" y="165" font-size="44" font-weight="bold" fill="#FFFFFF" text-anchor="end">Ahmet Nejdet Begdes · Efe Kaan Karaormanli</text>
   <text x="3430" y="228" font-size="36" fill="#CFE0F7" text-anchor="end">Department of Computer Science, UNC Wilmington</text>
   <text x="3430" y="282" font-size="36" fill="#CFE0F7" text-anchor="end">CSC 461/592 Virtual Reality · Group 10</text>
@@ -150,22 +150,25 @@
   <text x="1395" y="1638" font-size="54" font-weight="bold" fill="#1F3A7A">Adaptive difficulty</text>
   <!-- staircase -->
   <g font-size="34" font-weight="bold" fill="#FFFFFF" text-anchor="middle">
-    <rect x="1310" y="1940" width="230" height="100" rx="14" fill="#5FAE4E"/><text x="1425" y="1982">Level 1</text>
-    <rect x="1560" y="1860" width="230" height="180" rx="14" fill="#4A8FDD"/><text x="1675" y="1918">Level 2</text>
-    <rect x="1810" y="1770" width="230" height="270" rx="14" fill="#9B6BD3"/><text x="1925" y="1828">Level 3</text>
-    <rect x="2060" y="1680" width="230" height="360" rx="14" fill="#E05A4F"/><text x="2175" y="1738">Level 4</text>
+    <rect x="1310" y="1950" width="180" height="90" rx="14" fill="#5FAE4E"/><text x="1400" y="1990">Level 1</text>
+    <rect x="1510" y="1885" width="180" height="155" rx="14" fill="#4A8FDD"/><text x="1600" y="1925">Level 2</text>
+    <rect x="1710" y="1820" width="180" height="220" rx="14" fill="#9B6BD3"/><text x="1800" y="1860">Level 3</text>
+    <rect x="1910" y="1755" width="180" height="285" rx="14" fill="#E05A4F"/><text x="2000" y="1795">Level 4</text>
+    <rect x="2110" y="1690" width="180" height="350" rx="14" fill="#1F3A7A"/><text x="2200" y="1730">Level 5</text>
   </g>
-  <g font-size="30" fill="#FFFFFF" text-anchor="middle">
-    <text x="1425" y="2024">3 + 2</text>
-    <text x="1675" y="1966">6 + 4</text><text x="1675" y="2004">within 10</text>
-    <text x="1925" y="1876">12 + 5</text><text x="1925" y="1914">within 20</text>
-    <text x="2175" y="1786">8 + 7</text><text x="2175" y="1824">crosses 10</text>
+  <g font-size="28" fill="#FFFFFF" text-anchor="middle">
+    <text x="1400" y="2026">3 + 2</text>
+    <text x="1600" y="1966">6 + 4</text><text x="1600" y="2002">within 10</text>
+    <text x="1800" y="1901">12 + 5</text><text x="1800" y="1937">within 20</text>
+    <text x="2000" y="1836">8 + 7</text><text x="2000" y="1872">crosses 10</text>
+    <text x="2200" y="1771">47 + 28</text><text x="2200" y="1807">6 × 7</text><text x="2200" y="1843">within 100</text>
   </g>
+  <text x="1800" y="2028" font-size="26" font-weight="bold" fill="#FFD95A" text-anchor="middle">★ START</text>
   <g font-size="34" fill="#1A2238">
-    <text x="1310" y="2100">2 right in a row → level up · 2 wrong → level down</text>
+    <text x="1310" y="2100">Starts at Level 3 · 2 right → up · 2 wrong → down</text>
     <text x="1310" y="2150">Each third of the board unlocks a higher level,</text>
-    <text x="1310" y="2196">so the hardest problems wait near FINISH.</text>
-    <text x="1310" y="2250" font-weight="bold" fill="#1F3A7A">All numbers stay within 20 (EDN 303 advice).</text>
+    <text x="1310" y="2196">so Level 5 waits near FINISH.</text>
+    <text x="1310" y="2250" font-weight="bold" fill="#1F3A7A">Levels 1–4: EDN 303 set · Level 5: ages 10–12</text>
   </g>
 
   <!-- ============================ Column 3 ============================ -->
@@ -231,14 +234,14 @@
 
   <!-- Built for kids -->
   <rect x="2420" y="1800" width="560" height="490" rx="30" fill="#FFFFFF"/>
-  <text x="2470" y="1878" font-size="46" font-weight="bold" fill="#1F3A7A">Built for kids</text>
+  <text x="2470" y="1878" font-size="42" font-weight="bold" fill="#1F3A7A">Made for ages 10–12</text>
   <g font-size="32" fill="#1A2238">
     <circle cx="2482" cy="1937" r="12" fill="#5FAE4E"/><text x="2510" y="1948">Read-aloud (English)</text>
     <circle cx="2482" cy="1997" r="12" fill="#4A8FDD"/><text x="2510" y="2008">EN · ES · TR · FR</text>
     <circle cx="2482" cy="2057" r="12" fill="#F2C230"/><text x="2510" y="2068">Seated, no walking</text>
     <circle cx="2482" cy="2117" r="12" fill="#E05A4F"/><text x="2510" y="2128">Big text, sound optional</text>
   </g>
-  <text x="2470" y="2200" font-size="28" fill="#4A5570">Meta Quest 2/3 · Unity 6</text>
+  <text x="2470" y="2200" font-size="28" fill="#4A5570">Meta Quest 2/3 (ages 10+) · Unity 6</text>
   <text x="2470" y="2244" font-size="28" fill="#4A5570">OpenXR · XR Interaction Toolkit</text>
 
   <!-- QR code: Google Form feedback survey (https://forms.gle/AsZioN3ddqYAW4PK8) -->

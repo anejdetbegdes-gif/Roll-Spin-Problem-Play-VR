@@ -271,6 +271,15 @@ namespace RSPP
         {
             if (q == null) return;
 
+            if (q.Level >= 5)
+            {
+                ShowBigNumberSteps(q);
+                return;
+            }
+
+            for (int f = 0; f < frames.Length; f++) frames[f].SetActive(true);
+            PlaceVisualText(590f, Width - 610f, 44);
+
             bool pairs = q.Category == QuestionCategory.OddEven;
             int total = q.Category == QuestionCategory.Addition ? q.A + q.B : q.A;
             total = Mathf.Clamp(total, 0, counters.Length);
@@ -303,6 +312,60 @@ namespace RSPP
             else visualText.text = Loc.F(q.A % 2 == 0 ? "visual_even" : "visual_odd", q.A);
 
             visualGroup.SetActive(true);
+        }
+
+        /// <summary>
+        /// Level 5 numbers are too big for ten frames, so the answer is shown in small steps instead:
+        ///   47 + 28:  40 + 20 = 60,  7 + 8 = 15,  60 + 15 = 75
+        ///   83 - 36:  83 - 30 = 53,  53 - 6 = 47
+        ///   6 × 7 = 42, 42 is even
+        /// The steps use only numbers and symbols, so they need no translation.
+        /// </summary>
+        private void ShowBigNumberSteps(MathQuestion q)
+        {
+            for (int f = 0; f < frames.Length; f++) frames[f].SetActive(false);
+            for (int i = 0; i < counters.Length; i++) counters[i].gameObject.SetActive(false);
+            PlaceVisualText(30f, Width - 60f, 40);
+
+            string steps;
+            if (q.Category == QuestionCategory.Addition)
+            {
+                int tens = q.A / 10 * 10 + q.B / 10 * 10;
+                int ones = q.A % 10 + q.B % 10;
+                steps = q.A + " + " + q.B + " = " + q.Answer + "\n"
+                    + (q.A / 10 * 10) + " + " + (q.B / 10 * 10) + " = " + tens + ",   "
+                    + (q.A % 10) + " + " + (q.B % 10) + " = " + ones + ",   "
+                    + tens + " + " + ones + " = " + q.Answer;
+            }
+            else if (q.Category == QuestionCategory.Subtraction)
+            {
+                int tensOfB = q.B / 10 * 10;
+                int step = q.A - tensOfB;
+                steps = q.A + " - " + q.B + " = " + q.Answer + "\n"
+                    + q.A + " - " + tensOfB + " = " + step + ",   "
+                    + step + " - " + (q.B % 10) + " = " + q.Answer;
+            }
+            else if (q.IsProduct)
+            {
+                steps = q.FactorA + " × " + q.FactorB + " = " + q.A + "\n"
+                    + Loc.F(q.A % 2 == 0 ? "visual_even" : "visual_odd", q.A);
+            }
+            else
+            {
+                steps = Loc.F(q.A % 2 == 0 ? "visual_even" : "visual_odd", q.A);
+            }
+
+            visualText.text = steps;
+            visualGroup.SetActive(true);
+        }
+
+        /// <summary>Moves the picture text: beside the ten frames (Levels 1-4) or across the whole panel (Level 5).</summary>
+        private void PlaceVisualText(float x, float width, int fontSize)
+        {
+            var rect = visualText.rectTransform;
+            rect.anchoredPosition = new Vector2(x, -(FrameTop - 6f));
+            rect.sizeDelta = new Vector2(width, 2 * CellStep + 8f);
+            visualText.fontSize = fontSize;
         }
 
         // ------------------------------------------------------------------ Helpers

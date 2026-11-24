@@ -69,7 +69,7 @@ namespace RSPP
             { "enter", new[] { "Enter the classroom", "Entrar al salón", "Sınıfa gir", "Entrer dans la classe" } },
             { "instructions", new[] { "Instructions", "Instrucciones", "Nasıl oynanır", "Règles du jeu" } },
             { "back", new[] { "Back", "Atrás", "Geri", "Retour" } },
-            { "class_sign", new[] { "Classroom 2B", "Salón 2B", "2-B Sınıfı", "Classe 2B" } },
+            { "class_sign", new[] { "Classroom 5B", "Salón 5B", "5-B Sınıfı", "Classe 5B" } },
             { "instructions_text", new[] {
                 "1. ROLL: Grab the die with your LEFT hand. Let go to roll it.\n2. Your game piece moves by itself.\n3. SPIN: Hold the SPIN handle with your LEFT hand and press the trigger.\n4. ANSWER: Point with your RIGHT hand and press the trigger.\n5. Sometimes {0} has an idea. Touch {0}, then check if {0} is right!\nCollect stars and reach the FINISH!",
                 "1. LANZA: Toma el dado con tu mano IZQUIERDA. Suéltalo para lanzarlo.\n2. Tu ficha avanza sola.\n3. GIRA: Sujeta la palanca SPIN con tu mano IZQUIERDA y aprieta el gatillo.\n4. RESPONDE: Apunta con tu mano DERECHA y aprieta el gatillo.\n5. A veces {0} tiene una idea. ¡Toca a {0} y revisa si tiene razón!\n¡Junta estrellas y llega a la META!",
@@ -158,6 +158,12 @@ namespace RSPP
                 "{0} tektir. Bir noktanın eşi yok.", "{0} est impair. Un point n'a pas de partenaire." } },
             { "visual_even", new[] { "{0} is even", "{0} es par", "{0} çift", "{0} est pair" } },
             { "visual_odd", new[] { "{0} is odd", "{0} es impar", "{0} tek", "{0} est impair" } },
+            // Level 5 (ages 10-12): odd or even of a times-table fact, e.g. "Is 6 × 7 odd or even?"
+            { "q_product_oddeven", new[] { "Is {0} odd or even?", "¿{0} es par o impar?", "{0} tek mi, çift mi?", "{0} est-il pair ou impair ?" } },
+            { "exp_product_even", new[] {
+                "{0} = {1}. {1} is even.", "{0} = {1}. {1} es par.", "{0} = {1}. {1} çifttir.", "{0} = {1}. {1} est pair." } },
+            { "exp_product_odd", new[] {
+                "{0} = {1}. {1} is odd.", "{0} = {1}. {1} es impar.", "{0} = {1}. {1} tektir.", "{0} = {1}. {1} est impair." } },
             { "listen", new[] { "Listen", "Escuchar", "Dinle", "Écouter" } },
 
             // ---------------------------------------------------------------- Robo, the simulated AI Helper

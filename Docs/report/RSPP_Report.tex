@@ -25,7 +25,7 @@
 
 \begin{document}
 
-\title{Roll, Spin, Problem, Play: An Adaptive Virtual Reality Math Board Game with a Simulated AI Helper for Second Graders}
+\title{Roll, Spin, Problem, Play: An Adaptive Virtual Reality Math Board Game with a Simulated AI Helper}
 
 \author{\IEEEauthorblockN{Ahmet Nejdet Begdes and Efe Kaan Karaormanli}
 \IEEEauthorblockA{Department of Computer Science, University of North Carolina Wilmington\\
@@ -34,7 +34,7 @@ CSC 461/592 Virtual Reality, Group 10}}
 \maketitle
 
 \begin{abstract}
-We present \emph{Roll, Spin, Problem, Play}, a seated virtual reality (VR) board game for Meta Quest 2/3 that lets second-grade students practice addition, subtraction, and odd/even numbers. The game is a VR adaptation of a physical board game designed by education students (EDN 303) at our university. The player rolls a die with the left hand, watches a game piece move, spins a wheel that selects the problem type, and answers with a pointing ray in the right hand. We added three elements to the original game: rule-based adaptive difficulty that keeps all numbers within 20, mini challenges on star spaces, and a simulated AI Helper robot that sometimes gives a wrong answer on purpose, so that children practice checking an AI suggestion instead of trusting it. Following feedback from our EDN 303 collaborator, the helper has a name and a friendly personality, is wrong about one time in three, and mistakes are explained with ten-frame pictures. The game also offers English narration and four interface languages. We describe the design process, the implementation in Unity with OpenXR and the XR Interaction Toolkit, and the results of a demo with university students.
+We present \emph{Roll, Spin, Problem, Play}, a seated virtual reality (VR) board game for Meta Quest 2/3 that lets children practice addition, subtraction, and odd/even numbers. The game is a VR adaptation of a physical board game for second graders designed by education students (EDN 303) at our university. Because Meta Quest headsets are only for ages 10 and up, the VR version targets players aged 10--12: it keeps the original problem set and adds one harder level for this age group. The player rolls a die with the left hand, watches a game piece move, spins a wheel that selects the problem type, and answers with a pointing ray in the right hand. We added three elements to the original game: rule-based adaptive difficulty with five levels, mini challenges on star spaces, and a simulated AI Helper robot that sometimes gives a wrong answer on purpose, so that children practice checking an AI suggestion instead of trusting it. Following feedback from our EDN 303 collaborator, the helper has a name and a friendly personality, is wrong about one time in three, and mistakes are explained with ten-frame pictures. The game also offers English narration and four interface languages. We describe the design process, the implementation in Unity with OpenXR and the XR Interaction Toolkit, and the results of a demo with university students.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -47,7 +47,7 @@ Board games are a natural way for young children to practice numbers: moving a p
 
 At the same time, children increasingly meet AI tools that sound confident even when they are wrong. Researchers argue that AI literacy should start early~\cite{touretzky2019} and include the ability to evaluate what an AI system says~\cite{long2020}. Our game therefore includes a robot ``AI Helper'' that proposes answers. It is \emph{not} a real AI: it is a short script that knows the correct answer and sometimes shows a wrong one on purpose. The child's task is to decide whether the helper is right.
 
-The contributions of this project are: (1) a complete, seated VR adaptation of an education students' board game for Meta Quest; (2) a simple, rule-based adaptive difficulty model within the second-grade number range; and (3) a simulated AI Helper interaction designed, together with an education student, to teach checking AI answers without giving the helper a negative image.
+The contributions of this project are: (1) a complete, seated VR adaptation of an education students' board game for Meta Quest; (2) a simple, rule-based adaptive difficulty model that keeps the original second-grade problem set and adds a level for players aged 10--12, the youngest age allowed on the headset; and (3) a simulated AI Helper interaction designed, together with an education student, to teach checking AI answers without giving the helper a negative image.
 
 % ---------------------------------------------------------------------
 \section{Related Work}
@@ -79,6 +79,9 @@ The original \emph{Roll, Spin, Problem, Play} is a physical board game for secon
 \subsection{Discussion with EDN 303}
 We shared the proposal with the EDN 303 students and asked three questions: whether numbers within 10 and within 20 are the right levels, how a helper's wrong answers should be explained to a second grader, and which parts of the board game should not change. Bailey Clark answered that numbers within 10 and 20 suit second grade, and that she liked that the game can become simpler or more complex as students progress. She suggested giving the AI Helper a name and treating it like a person, because children readily help a character, which avoids a negative image of the helper; making the helper wrong about one third of the time, so correct answers are reinforced and children build confidence; explaining mistakes with simple visual examples; and adding voice narration for students with dyslexia or dyscalculia. Mini challenges were our own addition. We have no results from classroom testing of the physical game.
 
+\subsection{Target age}
+During implementation we checked the headset's age requirements. Meta Quest 2 and 3 are only for ages 10 and up, and children aged 10--12 need an account managed by a parent~\cite{metaparent}. Second graders (ages 7--8) therefore should not use the VR version. We asked our instructor whether to keep the second-grade problem set or adjust the math for ages 10--12. The instructor agreed that adding one additional difficulty level for this age group is a good choice and that the current problem set is sufficient for the game's learning objectives. We kept Levels 1--4 (the EDN 303 problem set) and added Level 5. The game now starts at Level 3, so a typical 10--12-year-old does not begin with very easy sums, while a student who needs easier numbers still moves down to Levels 2 and 1.
+
 \subsection{Changes during implementation}
 Table~\ref{tab:changes} lists how the final prototype differs from the proposal and why. Early play-testing by the team showed that the game ended after about seven rolls and that the difficulty rarely changed, which led to a longer board and smaller difficulty steps.
 
@@ -91,6 +94,7 @@ Table~\ref{tab:changes} lists how the final prototype differs from the proposal 
 Change & Reason \\
 \midrule
 4 levels, all within 20 (was 2 levels) & Team play-test; EDN 303: stay within 10/20 \\
+Level 5 for ages 10--12; start at Level 3 & Quest is for ages 10+; instructor approval \\
 Level up after 2 correct (was 3) & Level changes were rarely seen \\
 Level cap rises along the board & Harder questions appear near FINISH \\
 35 spaces, 6 star spaces (was 26, 4) & Games were too short \\
@@ -123,7 +127,7 @@ The player sits at a virtual table (Fig.~\ref{fig:classroom}). Everything the le
 \end{figure}
 
 \subsection{Adaptive difficulty}
-Four levels keep all numbers within 20: small sums within 10, sums within 10, teen numbers without crossing ten (e.g., $12+5$), and crossing ten (e.g., $8+7$, $15-8$). Two correct math answers in a row raise the level by one and two wrong answers lower it by one. A level cap rises with the board position (Levels 2, 3, and 4 in the first, middle, and last third), so the hardest problems appear near the finish while a struggling child still moves down. Judging the helper does not change the level.
+Levels 1--4 keep all numbers within 20: small sums within 10, sums within 10, teen numbers without crossing ten (e.g., $12+5$), and crossing ten (e.g., $8+7$, $15-8$). Level 5, for ages 10--12, uses two-digit numbers within 100 that make or break a ten (e.g., $47+28$, $83-36$), and its odd/even questions ask about a times-table fact (``Is $6\times7$ odd or even?''), so the three wheel categories of the original game stay unchanged. The game starts at Level 3. Two correct math answers in a row raise the level by one and two wrong answers lower it by one. A level cap rises with the board position (Levels 3, 4, and 5 in the first, middle, and last third), so the hardest problems appear near the finish while a struggling child still moves down. Judging the helper does not change the level. Level 5 numbers are too large for ten frames, so after a mistake the panel shows the answer in small steps instead (e.g., $40+20=60$, $7+8=15$, $60+15=75$).
 
 \subsection{Robo, the simulated AI Helper}
 On every second normal question, and on one of the three questions of every mini challenge, the robot, Robo, has an idea: its antenna blinks and it waves. The child touches Robo with the left hand to see the suggestion (``I think the answer is 14!'') and presses Correct or Incorrect (Fig.~\ref{fig:robo}). Suggestions come in groups of three with exactly one wrong suggestion in a random position, so Robo is wrong one time in three and never twice in a row; an earlier version that drew each suggestion at random was right five times in a row during our own play-testing, so a child might never see a mistake. Robo reacts kindly (``Oops, I made a mistake. Thank you for helping me!''). Robo is a script, not an AI model, and has no network connection and no voice.
@@ -140,7 +144,7 @@ The game opens in a school hallway in front of the classroom door, where the chi
 
 % ---------------------------------------------------------------------
 \section{Demo and User Feedback}
-\textbf{TODO: this section must be written with the real results of the demo.} Planned method: 3--5 university student participants each played one game (about 10 minutes) on a Meta Quest after a short explanation, then completed a feedback form with 5-point ratings for ease of the controls, readability, comfort, and fun; whether they checked Robo's answers; and open comments. Participants were adults; the game was not tested with second-grade children.
+\textbf{TODO: this section must be written with the real results of the demo.} Planned method: 3--5 university student participants each played one game (about 10 minutes) on a Meta Quest after a short explanation, then completed a feedback form with 5-point ratings for ease of the controls, readability, comfort, and fun; whether they checked Robo's answers; and open comments. Participants were adults; the game was not tested with children.
 
 % TODO example structure (fill with real numbers only):
 % Participants: N = _ (age range _), prior VR experience: _
@@ -152,11 +156,11 @@ The game opens in a school hallway in front of the classroom door, where the chi
 
 % ---------------------------------------------------------------------
 \section{Discussion and Limitations}
-The prototype has not been evaluated with second graders, so we cannot make claims about learning gains; the demo with university students only tells us about usability and comfort. Headset use by young children must follow the manufacturer's age guidelines and school policy, and sessions should be short and supervised~\cite{southgate2019,yu2018}. The AI Helper is deliberately simple and does not represent how real AI systems fail. The Spanish and French translations have not yet been reviewed by native speakers. Lighting is not baked yet.
+The prototype has not been evaluated with children, so we cannot make claims about learning gains; the demo with university students only tells us about usability and comfort. Headset use by children must follow the manufacturer's age requirements (ages 10 and up~\cite{metaparent}) and school policy, and sessions should be short and supervised~\cite{southgate2019,yu2018}. Because of the age requirement, the second graders for whom the original board game was designed cannot use the VR version; a non-VR (desktop) version would be needed for them. Level 5 was designed by the team and has not yet been reviewed by education students. The AI Helper is deliberately simple and does not represent how real AI systems fail. The Spanish and French translations have not yet been reviewed by native speakers. Lighting is not baked yet.
 
 % ---------------------------------------------------------------------
 \section{Conclusion and Future Work}
-We adapted an education students' math board game into a seated VR experience for Meta Quest, with rule-based adaptive difficulty, mini challenges, picture explanations, narration, and a friendly, fallible AI Helper that invites children to check AI answers. Future work includes a classroom study with second graders together with our EDN 303 collaborators, baked lighting, measured performance on the Quest, and native-speaker review of the translations.
+We adapted an education students' math board game into a seated VR experience for Meta Quest, with rule-based adaptive difficulty, mini challenges, picture explanations, narration, and a friendly, fallible AI Helper that invites children to check AI answers. Future work includes a classroom study with students aged 10--12, a desktop version for second graders together with our EDN 303 collaborators, baked lighting, measured performance on the Quest, and native-speaker review of the translations.
 
 \section*{Acknowledgment}
 We thank Hannah Terry and Bailey Clark (EDN 303) for the original game and their feedback.
@@ -208,6 +212,9 @@ D.~Touretzky, C.~Gardner-McCune, F.~Martin, and D.~Seehorn, ``Envisioning AI for
 
 \bibitem{druga2017}
 S.~Druga, R.~Williams, C.~Breazeal, and M.~Resnick, ``\,`Hey Google is it OK if I eat you?' Initial explorations in child-agent interaction,'' in \emph{Proc. Conf. Interaction Design and Children (IDC)}, 2017, pp.~595--600, doi: 10.1145/3078072.3084330.
+
+\bibitem{metaparent}
+Meta, ``Parent info: Meta Quest,'' [Online]. Available: \url{https://www.meta.com/quest/parent-info/}. Accessed: Nov.~24, 2026.
 
 \end{thebibliography}
 

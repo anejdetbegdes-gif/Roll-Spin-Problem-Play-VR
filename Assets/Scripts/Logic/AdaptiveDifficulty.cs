@@ -1,9 +1,10 @@
 namespace RSPP
 {
     /// <summary>
-    /// Rule-based adaptive difficulty with four levels, all within 20 (see QuestionGenerator):
+    /// Rule-based adaptive difficulty with five levels (see QuestionGenerator):
+    ///   every game starts at Level 3 (GameConfig.StartLevel), because players are 10-12 years old
     ///   2 correct answers in a row -> one level up   (but never above the current level cap)
-    ///   2 wrong answers in a row   -> one level down (never below Level 1)
+    ///   2 wrong answers in a row   -> one level down (down to Level 1, the easiest numbers)
     /// The level cap rises as the token moves along the board (GameConfig.LevelCapPerBoardPart),
     /// so the hardest questions can only appear near the FINISH.
     /// Only basic variables and if-statements. This is NOT machine learning.
@@ -11,7 +12,7 @@ namespace RSPP
     public class AdaptiveDifficulty
     {
         public const int MinLevel = 1;
-        public const int MaxLevel = 4;
+        public const int MaxLevel = 5;
         public const int CorrectStreakToLevelUp = 2;
         public const int WrongStreakToLevelDown = 2;
 
@@ -20,14 +21,19 @@ namespace RSPP
         public int CorrectStreak { get; private set; }
         public int WrongStreak { get; private set; }
 
-        public AdaptiveDifficulty()
+        private readonly int startLevel;
+
+        public AdaptiveDifficulty() : this(MinLevel) { }
+
+        public AdaptiveDifficulty(int startLevel)
         {
+            this.startLevel = startLevel < MinLevel ? MinLevel : (startLevel > MaxLevel ? MaxLevel : startLevel);
             Reset();
         }
 
         public void Reset()
         {
-            Level = MinLevel;
+            Level = startLevel;
             LevelCap = MaxLevel;
             CorrectStreak = 0;
             WrongStreak = 0;

@@ -4,7 +4,7 @@
 Ahmet Nejdet Begdes and Efe Kaan Karaormanli (Group 10)
 
 ## Roll, Spin, Problem, Play
-A small, single-player educational VR board game for second-grade students, built for Meta Quest 2/3 with Unity.
+A small, single-player educational VR math board game for players aged 10–12, built for Meta Quest 2/3 with Unity. The math comes from a board game designed for second graders; because Meta Quest headsets are only for ages 10 and up, we added a harder level for ages 10–12 (see section 8, *Target age*).
 
 **Rationale.** The game is the VR version of *Roll, Spin, Problem, Play*, a physical math board game designed by EDN 303 students Hannah Terry and Bailey Clark. Young students practice addition, subtraction and odd/even numbers more willingly when the practice is a game they can touch: in VR they grab and roll a die, pull a handle to spin a wheel, and watch their game piece move. We added three things to the original idea: **adaptive difficulty** (questions get harder or easier with the student's answers), **mini challenges** on star spaces, and a **simulated AI Helper** robot that sometimes suggests a wrong answer on purpose, so students learn that AI tools are useful but must be checked. The player stays in one place (seated or standing) at a table, which keeps the experience comfortable and simple.
 
@@ -188,7 +188,7 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 - **Star jar** (reward): a glass jar on the front-right corner of the table. Every star flies from the game piece into the jar, so progress is visible. At FINISH the stars fly out one by one, with a rising chime and a small vibration, and form a spinning frame around the result panel. The reward exists only inside the game (no currency, shop or unlocks).
 - **Feedback effects:** the star counter pulses for every star; the level label flashes when the level changes; confetti and a summary (stars, math answers right, Robo checks right, highest level) at FINISH.
 
-**Adaptive Difficulty** (`Assets/Scripts/Logic/AdaptiveDifficulty.cs`) — rule-based, four levels, all numbers within 20, plain `if` statements, no machine learning:
+**Adaptive Difficulty** (`Assets/Scripts/Logic/AdaptiveDifficulty.cs`) — rule-based, five levels, plain `if` statements, no machine learning:
 
 | Level | Addition / subtraction | Odd / even |
 |---|---|---|
@@ -196,10 +196,13 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 | 2 | within 10 (6 + 4, 9 − 3) | 1–10 |
 | 3 | within 20, no crossing ten (12 + 5, 17 − 4) | 11–20 |
 | 4 | within 20, crossing ten (8 + 7, 15 − 8) | 11–20 |
+| 5 | within 100, making or breaking a ten (47 + 28, 83 − 36) | odd or even of a times-table fact (6 × 7) |
 
-- Start at Level 1.
-- **2 correct answers in a row → one level up. 2 incorrect answers in a row → one level down.**
-- **Level cap by board position** (`GameConfig.LevelCapPerBoardPart`): first third of the board up to Level 2, middle third up to Level 3, last third up to Level 4. The hardest questions therefore appear near FINISH, while a struggling student still moves down.
+- **Start at Level 3** (`GameConfig.StartLevel`).
+- **2 correct answers in a row → one level up. 2 incorrect answers in a row → one level down** (down to Level 1).
+- **Level cap by board position** (`GameConfig.LevelCapPerBoardPart`): first third of the board up to Level 3, middle third up to Level 4, last third up to Level 5. The hardest questions therefore appear near FINISH, while a struggling student still moves down.
+- **Target age (change after the proposal, approved by the instructor):** the original board game is for second graders (ages 7–8), but Meta Quest 2 and 3 are only for ages 10 and up (ages 10–12 with a parent-managed account; see [Meta's parent information](https://www.meta.com/quest/parent-info/)). We therefore made the VR game for players aged 10–12. Levels 1–4 are the original problem set (within 20, as our EDN 303 collaborators advised). Level 5 was added for ages 10–12. The game starts at Level 3, so a typical 10–12-year-old does not begin with very easy sums, but a student who needs easier numbers still moves down to Levels 2 and 1. Our instructor replied that one additional difficulty level for this age group is a good choice and that the current problem set is sufficient for the learning objectives.
+- **Level 5 picture explanation:** the numbers are too big for ten frames, so the panel shows the answer in small steps instead, e.g. `40 + 20 = 60, 7 + 8 = 15, 60 + 15 = 75` or `83 − 30 = 53, 53 − 6 = 47` or `6 × 7 = 42, 42 is even`.
 - Every math answer counts (normal and mini-challenge questions). Judging the AI Helper does **not** count, because it is a yes/no decision.
 - The current level is shown in the top-left corner of the question panel.
 - **Picture explanation:** after a wrong answer (and whenever the AI Helper was wrong) the question panel shows the problem with counters in two ten frames: red + blue counters for addition, greyed-out "taken away" counters for subtraction, counters in pairs for odd/even (a lone orange counter means odd).
@@ -232,7 +235,7 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 - **Text uses the built-in legacy UI Text** (not TextMesh Pro) to avoid a manual resource import. It is large and high-contrast but slightly softer than TMP.
 - **Entrance screen** (change from the proposal, team decision): the proposal put Start / Restart / Instructions / Sound on one menu next to the board. Now the game opens in a school hallway in front of the classroom door with **language choice, Instructions and Enter the classroom**. Entering fades to black and shows the classroom with the player already seated (no walking, for comfort). The small menu on the right of the board has **Back to Menu** (with a "Leave the game?" confirmation), **Music** and **Sound**.
 - **Languages** (team decision): English, Spanish, Turkish and French. All sentences are in one table, `Assets/Scripts/Logic/Localization.cs`. The translations were written by the team with AI assistance and have **not yet been checked by native speakers** (except Turkish) — please review before classroom use.
-- **Narration** (EDN 303 suggestion, for students with dyslexia or dyscalculia): in English, questions, instructions and the worked answer after a mistake are read aloud; the **Listen** button repeats the question. The 43 clips in `Assets/Resources/Voice/` were generated offline with the Windows built-in voice "Microsoft Zira" (`Tools/make_voice.ps1`) and are joined word by word, so the headset needs no internet or speech engine. Robo itself has no voice. If the helper's name is changed, regenerate the clips that say "Robo".
+- **Narration** (EDN 303 suggestion, for students with dyslexia or dyscalculia): in English, questions, instructions and the worked answer after a mistake are read aloud; the **Listen** button repeats the question. The 50 clips in `Assets/Resources/Voice/` (numbers above 20 are joined from a tens clip and a ones clip, e.g. "forty" + "seven") were generated offline with the Windows built-in voice "Microsoft Zira" (`Tools/make_voice.ps1`) and are joined word by word, so the headset needs no internet or speech engine. Robo itself has no voice. If the helper's name is changed, regenerate the clips that say "Robo".
 - **Game length**: about 10 rolls per game on average (35 spaces). Board length is set by `BoardColumns` in `GameConfig.cs`.
 - **Quest Link in the Editor**: with Direct3D12 and *Single Pass Instanced* the headset showed only the background colour. The PC (Windows) OpenXR **Render Mode is set to Multi-pass**, which fixed it. The Android (Quest build) setting is unchanged.
 - Left hand = objects, right hand = UI is fixed (as in the proposal); there is no left-handed mode.
@@ -242,10 +245,10 @@ Stationary play, seated or standing. No locomotion, no teleport, no interactor s
 **Not verified — do not report these as results**
 - Unity compilation, Quest build, controller input, grabbing, ray UI clicks, haptics and audio on device.
 - Performance. The proposal's targets (≥ 72 FPS, < 13.9 ms, ≤ 750k triangles, ≤ 100 draw calls) are **targets, not measurements**. By construction the scene is small — roughly 100 primitive shapes, about 10–15 thousand triangles by mesh count, one light, no shadows, five small canvases — but draw calls and frame time must be measured on a headset (OVR Metrics Tool or the Unity Profiler).
-- Comfort and readability of panel positions and text sizes for real second-grade students.
+- Comfort and readability of panel positions and text sizes for real students aged 10–12.
 
 **Classroom use**
-- Short, supervised sessions only. Follow Meta's headset age requirements and school policy; not every second-grade student may be allowed to use a Quest. Desktop mode (section 5A) can be used to demonstrate the game without a headset.
+- Short, supervised sessions only. Meta Quest headsets are for ages 10 and up; follow Meta's age requirements and school policy. Second graders (ages 7–8) should not use the headset. Desktop mode (section 5A) can be used to demonstrate the game without a headset.
 - The EDN 303 collaborators supported individualized (adaptive) problems and the AI Helper with immediate feedback. Mini Challenges were our proposal. No classroom test results are claimed.
 
 ## 11. What was actually tested

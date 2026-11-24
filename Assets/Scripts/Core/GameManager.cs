@@ -76,7 +76,7 @@ namespace RSPP
         }
 
         private readonly QuestionGenerator questions = new QuestionGenerator();
-        private readonly AdaptiveDifficulty difficulty = new AdaptiveDifficulty();
+        private readonly AdaptiveDifficulty difficulty = new AdaptiveDifficulty(GameConfig.StartLevel);
         private readonly AIHelperLogic helperLogic = new AIHelperLogic();
 
         private MathQuestion currentQuestion;

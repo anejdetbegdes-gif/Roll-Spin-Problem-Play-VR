@@ -79,20 +79,40 @@ namespace RSPP
 
         // ------------------------------------------------------------------ Building sentences from clips
 
-        private static string Number(int n)
+        /// <summary>
+        /// Clips for a number from 0 to 99: n0 ... n20 are single clips, bigger numbers are joined
+        /// from a tens clip and a ones clip, e.g. 47 = "n40" + "n7" ("forty" "seven").
+        /// </summary>
+        private static string[] Number(int n)
         {
-            return "n" + n;     // clips n0 ... n20
+            if (n <= 20 || n > 99) return new[] { "n" + n };
+            if (n % 10 == 0) return new[] { "n" + n };
+            return new[] { "n" + (n / 10 * 10), "n" + (n % 10) };
+        }
+
+        /// <summary>Joins words and numbers into one list of clip names.</summary>
+        private static string[] Join(params object[] parts)
+        {
+            var clips = new List<string>();
+            foreach (object part in parts)
+            {
+                if (part is string[]) clips.AddRange((string[])part);
+                else clips.Add((string)part);
+            }
+            return clips.ToArray();
         }
 
         private static string[] QuestionClips(MathQuestion q)
         {
             switch (q.Category)
             {
-                case QuestionCategory.Addition: return new[] { "what_is", Number(q.A), "plus", Number(q.B) };
-                case QuestionCategory.Subtraction: return new[] { "what_is", Number(q.A), "minus", Number(q.B) };
+                case QuestionCategory.Addition: return Join("what_is", Number(q.A), "plus", Number(q.B));
+                case QuestionCategory.Subtraction: return Join("what_is", Number(q.A), "minus", Number(q.B));
                 default:
+                    // Level 5: "Is six times seven odd, or even?"
+                    if (q.IsProduct) return Join("is", Number(q.FactorA), "times", Number(q.FactorB), "odd_or_even");
                     // "Is 7 odd or even?" has two answer buttons; "Which number is even?" has four.
-                    if (q.Choices.Length == 2) return new[] { "is", Number(q.A), "odd_or_even" };
+                    if (q.Choices.Length == 2) return Join("is", Number(q.A), "odd_or_even");
                     return new[] { q.Answer == 0 ? "which_number_is_even" : "which_number_is_odd" };
             }
         }
@@ -101,9 +121,13 @@ namespace RSPP
         {
             switch (q.Category)
             {
-                case QuestionCategory.Addition: return new[] { Number(q.A), "plus", Number(q.B), "equals", Number(q.Answer) };
-                case QuestionCategory.Subtraction: return new[] { Number(q.A), "minus", Number(q.B), "equals", Number(q.Answer) };
-                default: return new[] { Number(q.A), q.A % 2 == 0 ? "is_even" : "is_odd" };
+                case QuestionCategory.Addition: return Join(Number(q.A), "plus", Number(q.B), "equals", Number(q.Answer));
+                case QuestionCategory.Subtraction: return Join(Number(q.A), "minus", Number(q.B), "equals", Number(q.Answer));
+                default:
+                    string parity = q.A % 2 == 0 ? "is_even" : "is_odd";
+                    if (q.IsProduct)
+                        return Join(Number(q.FactorA), "times", Number(q.FactorB), "equals", Number(q.A), Number(q.A), parity);
+                    return Join(Number(q.A), parity);
             }
         }
 

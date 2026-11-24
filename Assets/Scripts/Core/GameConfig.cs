@@ -17,11 +17,18 @@ namespace RSPP
         public static readonly int[] StarSpaces = { 4, 9, 14, 20, 25, 30 };
 
         /// <summary>
-        /// The board is split into three equal parts (roughly its three rows). In each part the
-        /// questions can climb up to this level, so the hardest questions appear near the FINISH.
-        /// Adaptive difficulty still moves the level up and down inside this limit.
+        /// Every game starts at this level. Meta Quest headsets are for ages 10 and up, so the game
+        /// starts in the middle (numbers within 20) instead of at the easiest level. Two wrong answers
+        /// in a row still move a player down to Levels 2 and 1 when they need easier numbers.
         /// </summary>
-        public static readonly int[] LevelCapPerBoardPart = { 2, 3, 4 };
+        public const int StartLevel = 3;
+
+        /// <summary>
+        /// The board is split into three equal parts (roughly its three rows). In each part the
+        /// questions can climb up to this level, so the hardest questions (Level 5, for ages 10-12)
+        /// appear near the FINISH. Adaptive difficulty still moves the level up and down inside this limit.
+        /// </summary>
+        public static readonly int[] LevelCapPerBoardPart = { 3, 4, 5 };
 
         /// <summary>The AI Helper robot's name (our EDN 303 collaborator suggested giving it a name).</summary>
         public const string HelperName = "Robo";

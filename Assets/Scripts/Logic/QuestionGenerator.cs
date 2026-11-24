@@ -4,19 +4,24 @@ using System.Collections.Generic;
 namespace RSPP
 {
     /// <summary>
-    /// Creates second-grade math questions with simple C# rules. No external service or AI model is used.
-    /// All numbers stay within 20, as recommended by our EDN 303 collaborators. Four small steps:
+    /// Creates math questions with simple C# rules. No external service or AI model is used.
+    /// Levels 1-4 are the second-grade problem set from the original design: all numbers stay within 20,
+    /// as recommended by our EDN 303 collaborators. Level 5 was added for players aged 10-12, because
+    /// Meta Quest headsets are only for ages 10 and up (approved by our instructor).
     ///   Level 1: small numbers within 10      (3 + 2, 5 - 1)          odd/even 1-10
     ///   Level 2: within 10                    (6 + 4, 9 - 3)          odd/even 1-10
     ///   Level 3: within 20, no crossing ten   (12 + 5, 17 - 4)        odd/even 11-20
     ///   Level 4: within 20, crossing ten      (8 + 7, 15 - 8)         odd/even 11-20
+    ///   Level 5: within 100, with regrouping  (47 + 28, 83 - 36)      odd/even of a product (6 x 7)
     /// </summary>
     public class QuestionGenerator
     {
         /// <summary>Largest number that can appear in an answer at this level.</summary>
         public static int MaxNumber(int level)
         {
-            return level <= 2 ? 10 : 20;
+            if (level <= 2) return 10;
+            if (level <= 4) return 20;
+            return 100;
         }
 
         private readonly Random rng;
@@ -67,9 +72,14 @@ namespace RSPP
                     // Teen number + small number, the ones stay below ten (e.g. 12 + 5 = 17).
                     do { a = rng.Next(11, 19); b = rng.Next(1, 9); } while (a % 10 + b > 9);
                     break;
-                default:
+                case 4:
                     // Two one-digit numbers that cross ten (e.g. 8 + 7 = 15).
                     do { a = rng.Next(2, 10); b = rng.Next(2, 10); } while (a + b < 11);
+                    break;
+                default:
+                    // Two two-digit numbers, the ones make a new ten, sum below 100 (e.g. 47 + 28 = 75).
+                    do { a = rng.Next(15, 80); b = rng.Next(12, 50); }
+                    while (a % 10 + b % 10 < 10 || a + b > 99 || a % 10 == 0 || b % 10 == 0);
                     break;
             }
 
@@ -82,7 +92,11 @@ namespace RSPP
             q.Answer = sum;
             q.Prompt = a + " + " + b + " = ?";
             q.Explanation = Loc.F("exp_add", a, b, sum);
-            BuildNumberChoices(q, sum, Math.Abs(a - b), MaxNumber(level));
+            if (level >= 5)
+                // Typical mistakes with big numbers: forgetting the new ten (-10), or off by one.
+                BuildNumberChoices(q, sum, new[] { sum - 10, sum + 10, sum + 1, sum - 1 }, MaxNumber(level));
+            else
+                BuildNumberChoices(q, sum, new[] { sum + 1, sum - 1, sum + 2, sum - 2, Math.Abs(a - b) }, MaxNumber(level));
             return q;
         }
 
@@ -108,9 +122,14 @@ namespace RSPP
                     // Teen number minus a small number, no crossing ten (e.g. 17 - 4 = 13).
                     do { a = rng.Next(11, 20); b = rng.Next(1, 10); } while (b > a % 10);
                     break;
-                default:
+                case 4:
                     // Crossing ten (e.g. 15 - 8 = 7).
                     do { a = rng.Next(11, 19); b = rng.Next(2, 10); } while (b <= a % 10);
+                    break;
+                default:
+                    // Two two-digit numbers, a ten has to be broken up (e.g. 83 - 36 = 47).
+                    do { a = rng.Next(31, 100); b = rng.Next(12, 70); }
+                    while (b % 10 <= a % 10 || a - b < 10);
                     break;
             }
 
@@ -123,7 +142,11 @@ namespace RSPP
             q.Answer = difference;
             q.Prompt = a + " - " + b + " = ?";
             q.Explanation = Loc.F("exp_sub", a, b, difference);
-            BuildNumberChoices(q, difference, a + b, MaxNumber(level));
+            if (level >= 5)
+                // Typical mistakes: not breaking up the ten (+10), or off by one.
+                BuildNumberChoices(q, difference, new[] { difference + 10, difference - 10, difference + 1, difference - 1 }, MaxNumber(level));
+            else
+                BuildNumberChoices(q, difference, new[] { difference + 1, difference - 1, difference + 2, difference - 2, a + b }, MaxNumber(level));
             return q;
         }
 
@@ -132,6 +155,8 @@ namespace RSPP
         // ------------------------------------------------------------------
         private MathQuestion MakeOddEven(int level)
         {
+            if (level >= 5) return MakeProductOddEven(level);
+
             int min = level <= 2 ? 1 : 11;
             int max = level <= 2 ? 10 : 20;
 
@@ -182,6 +207,33 @@ namespace RSPP
             return q;
         }
 
+        /// <summary>
+        /// Level 5: "Is 6 x 7 odd or even?" The player works out a times-table fact, then decides.
+        /// A = the product, FactorA x FactorB = A.
+        /// </summary>
+        private MathQuestion MakeProductOddEven(int level)
+        {
+            int x = rng.Next(3, 10);
+            int y = rng.Next(3, 10);
+            // Half of the questions use two odd numbers, so "odd" answers are as common as "even" ones.
+            if (rng.Next(0, 2) == 0) { x |= 1; y |= 1; }
+            int product = x * y;
+            bool even = product % 2 == 0;
+
+            var q = new MathQuestion();
+            q.Category = QuestionCategory.OddEven;
+            q.Level = level;
+            q.A = product;
+            q.FactorA = x;
+            q.FactorB = y;
+            q.Answer = even ? 0 : 1;
+            q.Prompt = Loc.F("q_product_oddeven", x + " × " + y);
+            q.Choices = new[] { Loc.T("odd"), Loc.T("even") };
+            q.CorrectIndex = even ? 1 : 0;
+            q.Explanation = Loc.F(even ? "exp_product_even" : "exp_product_odd", x + " × " + y, product);
+            return q;
+        }
+
         private static string ParityExplanation(int n)
         {
             return Loc.F(n % 2 == 0 ? "exp_even" : "exp_odd", n);
@@ -202,12 +254,12 @@ namespace RSPP
         // ------------------------------------------------------------------
 
         /// <summary>
-        /// Fills in four number choices: the correct answer plus three believable wrong ones
-        /// (off by one or two, and the "used the other operation" mistake).
+        /// Fills in four number choices: the correct answer plus three believable wrong ones,
+        /// picked at random from <paramref name="mistakes"/> (typical mistakes such as off by one).
         /// </summary>
-        private void BuildNumberChoices(MathQuestion q, int correct, int otherOperationResult, int maxValue)
+        private void BuildNumberChoices(MathQuestion q, int correct, int[] mistakes, int maxValue)
         {
-            var candidates = new List<int> { correct + 1, correct - 1, correct + 2, correct - 2, otherOperationResult };
+            var candidates = new List<int>(mistakes);
             Shuffle(candidates);
 
             var wrong = new List<int>();
