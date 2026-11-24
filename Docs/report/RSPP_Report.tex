@@ -1,0 +1,211 @@
+% =====================================================================
+% CSC 461/592 - Final VR Assignment report (3-6 pages, short academic paper)
+% Roll, Spin, Problem, Play - VR Group 10
+%
+% HOW TO BUILD: upload this file (and the figure images, when you have them)
+% to Overleaf -> New Project -> Upload Project, then press Recompile.
+% IEEEtran is built into Overleaf, so no extra files are needed.
+%
+% Figures: put screenshots next to this file with the names below
+% (fig_classroom.png, fig_robo.png, fig_entrance.png). Until then the
+% document still compiles and shows a grey placeholder box.
+%
+% Everything marked TODO must be filled in by the team with REAL data.
+% =====================================================================
+\documentclass[conference]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% Shows the image if the file exists, otherwise a placeholder box.
+\newcommand{\figorplaceholder}[2]{%
+  \IfFileExists{#1}{\includegraphics[width=\linewidth]{#1}}%
+  {\fbox{\parbox[c][0.45\linewidth][c]{0.95\linewidth}{\centering\small Screenshot placeholder:\\ \texttt{#1}\\ #2}}}}
+
+\begin{document}
+
+\title{Roll, Spin, Problem, Play: An Adaptive Virtual Reality Math Board Game with a Simulated AI Helper for Second Graders}
+
+\author{\IEEEauthorblockN{Ahmet Nejdet Begdes and Efe Kaan Karaormanli}
+\IEEEauthorblockA{Department of Computer Science, University of North Carolina Wilmington\\
+CSC 461/592 Virtual Reality, Group 10}}
+
+\maketitle
+
+\begin{abstract}
+We present \emph{Roll, Spin, Problem, Play}, a seated virtual reality (VR) board game for Meta Quest 2/3 that lets second-grade students practice addition, subtraction, and odd/even numbers. The game is a VR adaptation of a physical board game designed by education students (EDN 303) at our university. The player rolls a die with the left hand, watches a game piece move, spins a wheel that selects the problem type, and answers with a pointing ray in the right hand. We added three elements to the original game: rule-based adaptive difficulty that keeps all numbers within 20, mini challenges on star spaces, and a simulated AI Helper robot that sometimes gives a wrong answer on purpose, so that children practice checking an AI suggestion instead of trusting it. Following feedback from our EDN 303 collaborator, the helper has a name and a friendly personality, is wrong about one time in three, and mistakes are explained with ten-frame pictures. The game also offers English narration and four interface languages. We describe the design process, the implementation in Unity with OpenXR and the XR Interaction Toolkit, and the results of a demo with university students.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Virtual reality, educational games, mathematics education, adaptive difficulty, AI literacy, children
+\end{IEEEkeywords}
+
+% ---------------------------------------------------------------------
+\section{Introduction}
+Board games are a natural way for young children to practice numbers: moving a piece along a numbered path links counting to space and quantity, and playing a simple linear number board game for only a few short sessions has been shown to improve preschoolers' numerical knowledge~\cite{siegler2008}. VR can keep the physical feel of such a game---grabbing a die, pulling a handle, watching a piece hop---while adding things a printed board cannot do, such as adapting the questions to each child and giving immediate, individual feedback.
+
+At the same time, children increasingly meet AI tools that sound confident even when they are wrong. Researchers argue that AI literacy should start early~\cite{touretzky2019} and include the ability to evaluate what an AI system says~\cite{long2020}. Our game therefore includes a robot ``AI Helper'' that proposes answers. It is \emph{not} a real AI: it is a short script that knows the correct answer and sometimes shows a wrong one on purpose. The child's task is to decide whether the helper is right.
+
+The contributions of this project are: (1) a complete, seated VR adaptation of an education students' board game for Meta Quest; (2) a simple, rule-based adaptive difficulty model within the second-grade number range; and (3) a simulated AI Helper interaction designed, together with an education student, to teach checking AI answers without giving the helper a negative image.
+
+% ---------------------------------------------------------------------
+\section{Related Work}
+
+\subsection{VR for learning}
+A meta-analysis of VR-based instruction in K-12 and higher education found positive effects on learning, with games producing larger gains than simulations or virtual worlds~\cite{merchant2014}. A systematic review of immersive VR in higher education found promising results but called for designs grounded in learning theory~\cite{radianti2020}. Immersion alone is not enough: adding a head-mounted display (HMD) to a science simulation increased presence but reduced learning and increased cognitive load~\cite{makransky2019}. This result guided us to keep the scene simple, the text short, and the interaction limited to a few clear actions.
+
+\subsection{Children and head-mounted displays}
+Bringing immersive VR into real classrooms raises ethical, safety, and organisational questions, such as supervision, hygiene, and time limits~\cite{southgate2019}. Studies at IEEE venues have examined how children differ from adults in VR: preteens showed a trend toward more visual fatigue after one hour with an HMD than with a tablet~\cite{yu2018}, and children recalibrated their walking differently from teens in an immersive virtual environment~\cite{adams2018}. We therefore designed a short, seated, stationary experience with no locomotion, large text, and a fade instead of camera motion for scene changes.
+
+\subsection{Game-based math learning}
+Linear number board games support young children's number sense~\cite{siegler2008}. A meta-analysis of digital game-based mathematics learning in PreK-12 found a small but positive effect compared with traditional instruction~\cite{tokac2019}. Plass et al.\ argue that learning games must combine cognitive, motivational, affective, and sociocultural foundations~\cite{plass2015}; our design uses immediate feedback, low-stakes rewards (stars), and a friendly character to address the motivational and affective sides.
+
+\subsection{Adaptive difficulty}
+Dynamic difficulty adjustment (DDA) changes a game's challenge in response to the player, because a game that is too easy is boring and one that is too hard is frustrating~\cite{hunicke2005}. A review of DDA approaches describes methods ranging from simple rules to machine learning~\cite{zohaib2018}. For young learners and for transparency to teachers, we chose a small set of explicit rules rather than a learned model.
+
+\subsection{AI literacy for children}
+Touretzky et al.\ propose big ideas that every K-12 student should know about AI~\cite{touretzky2019}, and Long and Magerko define AI literacy competencies, including critically evaluating AI~\cite{long2020}. Studies of children interacting with voice assistants and robots show that children attribute intelligence and personality to agents~\cite{druga2017}. This suggests both a risk (over-trust) and an opportunity: a friendly, fallible character can model that mistakes happen and that checking is normal.
+
+\subsection{VR games built with Unity for Quest}
+Our project follows the format of short VR game papers such as \emph{Band Overdrive}, a multi-instrument VR rhythm game for Oculus Quest built in Unity~\cite{wang2022}, which describes the interactions, game structure, and future user studies.
+
+% ---------------------------------------------------------------------
+\section{Design Process}
+
+\subsection{From board game to VR concept}
+The original \emph{Roll, Spin, Problem, Play} is a physical board game for second graders designed by EDN 303 students Hannah Terry and Bailey Clark. In the course's ``Pick Your Game'' phase we chose it because its core actions---rolling, spinning, and moving a piece---map directly to VR hand interactions. We then wrote a VR game design document (proposal) that fixed the scope: one small classroom, one table, a seated or standing player, no locomotion, the left hand for objects (XR Direct Interactor) and the right hand for buttons (XR Ray Interactor).
+
+\subsection{Discussion with EDN 303}
+We shared the proposal with the EDN 303 students and asked three questions: whether numbers within 10 and within 20 are the right levels, how a helper's wrong answers should be explained to a second grader, and which parts of the board game should not change. Bailey Clark answered that numbers within 10 and 20 suit second grade, and that she liked that the game can become simpler or more complex as students progress. She suggested giving the AI Helper a name and treating it like a person, because children readily help a character, which avoids a negative image of the helper; making the helper wrong about one third of the time, so correct answers are reinforced and children build confidence; explaining mistakes with simple visual examples; and adding voice narration for students with dyslexia or dyscalculia. Mini challenges were our own addition. We have no results from classroom testing of the physical game.
+
+\subsection{Changes during implementation}
+Table~\ref{tab:changes} lists how the final prototype differs from the proposal and why. Early play-testing by the team showed that the game ended after about seven rolls and that the difficulty rarely changed, which led to a longer board and smaller difficulty steps.
+
+\begin{table}[t]
+\caption{Changes from the proposal to the final prototype}
+\label{tab:changes}
+\centering\small
+\begin{tabular}{p{0.37\linewidth}p{0.53\linewidth}}
+\toprule
+Change & Reason \\
+\midrule
+4 levels, all within 20 (was 2 levels) & Team play-test; EDN 303: stay within 10/20 \\
+Level up after 2 correct (was 3) & Level changes were rarely seen \\
+Level cap rises along the board & Harder questions appear near FINISH \\
+35 spaces, 6 star spaces (was 26, 4) & Games were too short \\
+Helper named ``Robo'', wrong 1/3 of the time & EDN 303 feedback \\
+Touch Robo with the left hand to ask & Asking the AI becomes an action \\
+Ten-frame picture after mistakes & EDN 303 feedback \\
+English narration & EDN 303 feedback (accessibility) \\
+Entrance screen, 4 languages & Team decision \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Implementation}
+
+\subsection{Platform}
+The game targets Meta Quest 2/3 and was built with Unity 6000.3.22f1 (Built-in Render Pipeline), the OpenXR plug-in, and the XR Interaction Toolkit 3.3. The scene is built from C\# at start-up from primitive shapes, so all positions, sizes, and rules live in one configuration file. Pure game logic (question generation, difficulty, helper decisions, translations) has no Unity dependencies and was tested outside Unity.
+
+\subsection{Interaction and game loop}
+The player sits at a virtual table (Fig.~\ref{fig:classroom}). Everything the left hand touches is on the left: the die, the SPIN handle, the wheel, and the robot. The menu for the right-hand ray is on the right. A turn is: grab and release the die (a scripted tumble so the die cannot fall off the table), the piece moves automatically, pull the SPIN handle, the wheel selects addition, subtraction, odd/even, a mini challenge, or a bonus star, and the child answers with the ray. A correct answer earns a star; a wrong answer shows the correct answer, a one-sentence explanation, and a ten-frame picture (red and blue counters for addition, taken-away counters for subtraction, counters in pairs for odd/even). There is no penalty. The table height adapts to the player's eye height, and a thumbstick click re-centres the view.
+
+\begin{figure}[t]
+\centering
+\figorplaceholder{fig_classroom.png}{Player's view: board, die, wheel, Robo, question panel}
+\caption{The classroom from the seated player's view. TODO: replace with a headset screenshot.}
+\label{fig:classroom}
+\end{figure}
+
+\subsection{Adaptive difficulty}
+Four levels keep all numbers within 20: small sums within 10, sums within 10, teen numbers without crossing ten (e.g., $12+5$), and crossing ten (e.g., $8+7$, $15-8$). Two correct math answers in a row raise the level by one and two wrong answers lower it by one. A level cap rises with the board position (Levels 2, 3, and 4 in the first, middle, and last third), so the hardest problems appear near the finish while a struggling child still moves down. Judging the helper does not change the level.
+
+\subsection{Robo, the simulated AI Helper}
+On about four in ten normal questions the robot, Robo, has an idea: its antenna blinks and it waves. The child touches Robo with the left hand to see the suggestion (``I think the answer is 14!'') and presses Correct or Incorrect (Fig.~\ref{fig:robo}). Robo is wrong about one time in three, never twice in a row, and never right more than three times in a row. Robo reacts kindly (``Oops, I made a mistake. Thank you for helping me!''). Robo is a script, not an AI model, and has no network connection and no voice.
+
+\begin{figure}[t]
+\centering
+\figorplaceholder{fig_robo.png}{Robo's speech bubble with Correct / Incorrect, and the ten-frame picture}
+\caption{Robo, the simulated AI Helper, and the picture explanation. TODO: replace with a headset screenshot.}
+\label{fig:robo}
+\end{figure}
+
+\subsection{Accessibility, comfort, and languages}
+The game opens in a school hallway in front of the classroom door, where the child chooses English, Spanish, Turkish, or French and presses ``Enter the classroom''. The screen fades to black and the classroom appears with the child already seated; the camera is never moved through the world. In English, questions, instructions, and worked answers are read aloud from short clips generated offline with the Windows text-to-speech voice, joined word by word, so the headset needs no internet. Text is large and high-contrast, and sound effects, music, and haptics are optional. Our performance targets from the proposal are at least 72 frames per second and at most 100 draw calls and 750k triangles. TODO: report the values measured on the Quest (OVR Metrics Tool or Unity Profiler).
+
+% ---------------------------------------------------------------------
+\section{Demo and User Feedback}
+\textbf{TODO: this section must be written with the real results of the demo.} Planned method: 3--5 university student participants each played one game (about 10 minutes) on a Meta Quest after a short explanation, then completed a feedback form with 5-point ratings for ease of the controls, readability, comfort, and fun; whether they checked Robo's answers; and open comments. Participants were adults; the game was not tested with second-grade children.
+
+% TODO example structure (fill with real numbers only):
+% Participants: N = _ (age range _), prior VR experience: _
+% Task success: _ of _ finished a full game without help.
+% Ratings (mean, 1-5): controls _, readability _, comfort _, fun _.
+% Robo: participants judged _ of _ suggestions correctly.
+% Main comments: ...
+% Changes made after the demo: ...
+
+% ---------------------------------------------------------------------
+\section{Discussion and Limitations}
+The prototype has not been evaluated with second graders, so we cannot make claims about learning gains; the demo with university students only tells us about usability and comfort. Headset use by young children must follow the manufacturer's age guidelines and school policy, and sessions should be short and supervised~\cite{southgate2019,yu2018}. The AI Helper is deliberately simple and does not represent how real AI systems fail. The Spanish and French translations have not yet been reviewed by native speakers. Lighting is not baked yet.
+
+% ---------------------------------------------------------------------
+\section{Conclusion and Future Work}
+We adapted an education students' math board game into a seated VR experience for Meta Quest, with rule-based adaptive difficulty, mini challenges, picture explanations, narration, and a friendly, fallible AI Helper that invites children to check AI answers. Future work includes a classroom study with second graders together with our EDN 303 collaborators, baked lighting, measured performance on the Quest, and native-speaker review of the translations.
+
+\section*{Acknowledgment}
+We thank Hannah Terry and Bailey Clark (EDN 303) for the original game and their feedback.
+
+% ---------------------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{merchant2014}
+Z.~Merchant, E.~T. Goetz, L.~Cifuentes, W.~Keeney-Kennicutt, and T.~J. Davis, ``Effectiveness of virtual reality-based instruction on students' learning outcomes in K-12 and higher education: A meta-analysis,'' \emph{Computers \& Education}, vol.~70, pp.~29--40, 2014.
+
+\bibitem{radianti2020}
+J.~Radianti, T.~A. Majchrzak, J.~Fromm, and I.~Wohlgenannt, ``A systematic review of immersive virtual reality applications for higher education: Design elements, lessons learned, and research agenda,'' \emph{Computers \& Education}, vol.~147, art.~103778, 2020, doi: 10.1016/j.compedu.2019.103778.
+
+\bibitem{makransky2019}
+G.~Makransky, T.~S. Terkildsen, and R.~E. Mayer, ``Adding immersive virtual reality to a science lab simulation causes more presence but less learning,'' \emph{Learning and Instruction}, vol.~60, pp.~225--236, 2019.
+
+\bibitem{southgate2019}
+E.~Southgate \emph{et al.}, ``Embedding immersive virtual reality in classrooms: Ethical, organisational and educational lessons in bridging research and practice,'' \emph{International Journal of Child-Computer Interaction}, vol.~19, pp.~19--29, 2019, doi: 10.1016/j.ijcci.2018.10.002.
+
+\bibitem{yu2018}
+X.~Yu, D.~Weng, J.~Guo, H.~Jiang, and Y.~Bao, ``Effect of using HMDs for one hour on preteens visual fatigue,'' in \emph{Proc. IEEE Int. Symp. Mixed and Augmented Reality Adjunct (ISMAR-Adjunct)}, 2018, pp.~93--96, doi: 10.1109/ISMAR-Adjunct.2018.00042.
+
+\bibitem{adams2018}
+H.~Adams, G.~Narasimham, J.~Rieser, S.~Creem-Regehr, J.~Stefanucci, and B.~Bodenheimer, ``Locomotive recalibration and prism adaptation of children and teens in immersive virtual environments,'' \emph{IEEE Transactions on Visualization and Computer Graphics}, 2018.
+
+\bibitem{wang2022}
+J.~Wang, S.~Liao, H.~Wang, and C.~Mousas, ``Band Overdrive: A multi-instrument virtual reality music rhythm game,'' in \emph{Proc. IEEE Conf. Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)}, 2022, pp.~906--907, doi: 10.1109/VRW55335.2022.00304.
+
+\bibitem{siegler2008}
+R.~S. Siegler and G.~B. Ramani, ``Playing linear numerical board games promotes low-income children's numerical development,'' \emph{Developmental Science}, vol.~11, no.~5, pp.~655--661, 2008.
+
+\bibitem{tokac2019}
+U.~Tokac, E.~Novak, and C.~G. Thompson, ``Effects of game-based learning on students' mathematics achievement: A meta-analysis,'' \emph{Journal of Computer Assisted Learning}, vol.~35, no.~3, pp.~407--420, 2019, doi: 10.1111/jcal.12347.
+
+\bibitem{plass2015}
+J.~L. Plass, B.~D. Homer, and C.~K. Kinzer, ``Foundations of game-based learning,'' \emph{Educational Psychologist}, vol.~50, no.~4, pp.~258--283, 2015, doi: 10.1080/00461520.2015.1122533.
+
+\bibitem{hunicke2005}
+R.~Hunicke, ``The case for dynamic difficulty adjustment in games,'' in \emph{Proc. ACM SIGCHI Int. Conf. Advances in Computer Entertainment Technology (ACE)}, 2005, pp.~429--433.
+
+\bibitem{zohaib2018}
+M.~Zohaib, ``Dynamic difficulty adjustment (DDA) in computer games: A review,'' \emph{Advances in Human-Computer Interaction}, vol.~2018, art.~5681652, 2018, doi: 10.1155/2018/5681652.
+
+\bibitem{long2020}
+D.~Long and B.~Magerko, ``What is AI literacy? Competencies and design considerations,'' in \emph{Proc. CHI Conf. Human Factors in Computing Systems}, 2020, pp.~1--16, doi: 10.1145/3313831.3376727.
+
+\bibitem{touretzky2019}
+D.~Touretzky, C.~Gardner-McCune, F.~Martin, and D.~Seehorn, ``Envisioning AI for K-12: What should every child know about AI?'' in \emph{Proc. AAAI Conf. Artificial Intelligence}, vol.~33, 2019, pp.~9795--9799, doi: 10.1609/aaai.v33i01.33019795.
+
+\bibitem{druga2017}
+S.~Druga, R.~Williams, C.~Breazeal, and M.~Resnick, ``\,`Hey Google is it OK if I eat you?' Initial explorations in child-agent interaction,'' in \emph{Proc. Conf. Interaction Design and Children (IDC)}, 2017, pp.~595--600, doi: 10.1145/3078072.3084330.
+
+\end{thebibliography}
+
+\end{document}

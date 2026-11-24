@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36in" height="24in" viewBox="0 0 3600 2400" font-family="Arial, Helvetica, sans-serif">
+  <title>Roll, Spin, Problem, Play - Computing Showcase poster (36 x 24 in)</title>
+
+  <!-- Page -->
+  <rect x="0" y="0" width="3600" height="2400" fill="#EEF4FB"/>
+
+  <!-- ============================ Title card ============================ -->
+  <rect x="80" y="60" width="3440" height="310" rx="36" fill="#1F3A7A"/>
+  <g transform="translate(170 215)">
+    <!-- die icon -->
+    <rect x="0" y="-95" width="190" height="190" rx="34" fill="#FFFFFF"/>
+    <circle cx="48" cy="-47" r="19" fill="#1F3A7A"/><circle cx="95" cy="0" r="19" fill="#1F3A7A"/><circle cx="142" cy="47" r="19" fill="#1F3A7A"/>
+  </g>
+  <text x="430" y="205" font-size="132" font-weight="bold" fill="#FFFFFF">Roll, Spin, Problem, Play</text>
+  <text x="434" y="290" font-size="50" fill="#FFD95A">An adaptive VR math board game with a simulated AI Helper for second graders</text>
+  <text x="3430" y="165" font-size="44" font-weight="bold" fill="#FFFFFF" text-anchor="end">Ahmet Nejdet Begdes · Efe Kaan Karaormanli</text>
+  <text x="3430" y="228" font-size="36" fill="#CFE0F7" text-anchor="end">Department of Computer Science, UNC Wilmington</text>
+  <text x="3430" y="282" font-size="36" fill="#CFE0F7" text-anchor="end">CSC 461/592 Virtual Reality · Group 10</text>
+  <text x="3430" y="336" font-size="32" fill="#FFD95A" text-anchor="end">Original board game: Hannah Terry &amp; Bailey Clark (EDN 303)</text>
+
+  <!-- ============================ Column 1 ============================ -->
+  <!-- Why -->
+  <rect x="80" y="420" width="1100" height="640" rx="30" fill="#FFFFFF"/>
+  <circle cx="160" cy="500" r="42" fill="#F2C230"/>
+  <text x="160" y="516" font-size="46" font-weight="bold" fill="#1F3A7A" text-anchor="middle">?</text>
+  <text x="225" y="518" font-size="54" font-weight="bold" fill="#1F3A7A">Why this game?</text>
+  <g font-size="38" fill="#1A2238">
+    <text x="130" y="610">Board games link counting to space: a few short</text>
+    <text x="130" y="664">sessions with a number board game improve young</text>
+    <text x="130" y="718">children's number sense [1].</text>
+    <text x="130" y="800">VR keeps the feel of the real game – grab the die,</text>
+    <text x="130" y="854">pull the handle, watch the piece hop – and adds</text>
+    <text x="130" y="908">questions that adapt to each child.</text>
+    <text x="130" y="990">Children also meet AI tools that can be wrong.</text>
+    <text x="130" y="1044" font-weight="bold" fill="#1F3A7A">Robo teaches them to check, not just trust [2].</text>
+  </g>
+
+  <!-- How to play -->
+  <rect x="80" y="1100" width="1100" height="1190" rx="30" fill="#FFFFFF"/>
+  <circle cx="160" cy="1180" r="42" fill="#5FAE4E"/>
+  <polygon points="146,1158 146,1202 182,1180" fill="#FFFFFF"/>
+  <text x="225" y="1198" font-size="54" font-weight="bold" fill="#1F3A7A">How to play</text>
+  <g font-size="38" fill="#1A2238">
+    <circle cx="170" cy="1310" r="44" fill="#E05A4F"/><text x="170" y="1326" font-size="46" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+    <text x="245" y="1298" font-weight="bold" fill="#1F3A7A">ROLL</text>
+    <text x="245" y="1346">Grab the die with your LEFT hand, let go.</text>
+
+    <circle cx="170" cy="1480" r="44" fill="#F2C230"/><text x="170" y="1496" font-size="46" font-weight="bold" fill="#1F3A7A" text-anchor="middle">2</text>
+    <text x="245" y="1468" font-weight="bold" fill="#1F3A7A">MOVE</text>
+    <text x="245" y="1516">Your game piece hops by itself.</text>
+
+    <circle cx="170" cy="1650" r="44" fill="#5FAE4E"/><text x="170" y="1666" font-size="46" font-weight="bold" fill="#FFFFFF" text-anchor="middle">3</text>
+    <text x="245" y="1638" font-weight="bold" fill="#1F3A7A">SPIN</text>
+    <text x="245" y="1686">Hold the SPIN handle, press the trigger.</text>
+
+    <circle cx="170" cy="1820" r="44" fill="#4A8FDD"/><text x="170" y="1836" font-size="46" font-weight="bold" fill="#FFFFFF" text-anchor="middle">4</text>
+    <text x="245" y="1808" font-weight="bold" fill="#1F3A7A">ANSWER</text>
+    <text x="245" y="1856">Point with your RIGHT hand and click.</text>
+
+    <circle cx="170" cy="1990" r="44" fill="#9B6BD3"/><text x="170" y="2006" font-size="46" font-weight="bold" fill="#FFFFFF" text-anchor="middle">5</text>
+    <text x="245" y="1978" font-weight="bold" fill="#1F3A7A">CHECK ROBO</text>
+    <text x="245" y="2026">Touch Robo. Is the AI Helper right?</text>
+  </g>
+  <rect x="130" y="2110" width="1000" height="140" rx="24" fill="#FFF4D1"/>
+  <text x="630" y="2172" font-size="40" font-weight="bold" fill="#1F3A7A" text-anchor="middle">Earn stars and reach FINISH!</text>
+  <text x="630" y="2226" font-size="32" fill="#5A4A10" text-anchor="middle">Seated · no walking · about 10 rolls per game</text>
+
+  <!-- ============================ Column 2 ============================ -->
+  <!-- Hero illustration -->
+  <rect x="1250" y="420" width="1100" height="1080" rx="30" fill="#FFFFFF"/>
+  <svg x="1290" y="460" width="1020" height="690" viewBox="0 0 680 460">
+    <polygon points="0,0 680,0 590,22 90,22" fill="#F4F4F2"/>
+    <rect x="190" y="6" width="90" height="8" rx="2" fill="#FFFBE6"/><rect x="400" y="6" width="90" height="8" rx="2" fill="#FFFBE6"/>
+    <rect x="90" y="22" width="500" height="230" fill="#BFDDF0"/>
+    <polygon points="0,0 90,22 90,252 0,335" fill="#FBF0CF"/>
+    <polygon points="680,0 590,22 590,252 680,335" fill="#FBF0CF"/>
+    <polygon points="0,335 90,252 590,252 680,335 680,460 0,460" fill="#CFA978"/>
+    <polygon points="120,460 200,300 480,300 560,460" fill="#5E9CC9"/>
+    <polygon points="14,62 72,74 72,196 14,214" fill="#F7F7F5"/>
+    <polygon points="19,68 67,79 67,191 19,207" fill="#9ED6F7"/>
+    <circle cx="36" cy="150" r="13" fill="#5FAE4E"/><rect x="34" y="160" width="4" height="22" fill="#7A5A3A"/>
+    <rect x="216" y="44" width="250" height="114" rx="3" fill="#7A5236"/>
+    <rect x="224" y="51" width="234" height="96" fill="#215440"/>
+    <text x="341" y="88" text-anchor="middle" font-size="17" fill="#FFFBEA" font-weight="bold">Roll, Spin, Problem, Play</text>
+    <text x="341" y="112" text-anchor="middle" font-size="13" fill="#FFD95A">A VR Math Game</text>
+    <text x="341" y="134" text-anchor="middle" font-size="13" fill="#E8F0E8">3 + 4 = 7</text>
+    <rect x="106" y="54" width="96" height="58" rx="3" fill="#FFFFFF"/><line x1="114" y1="90" x2="194" y2="90" stroke="#1E3A6E" stroke-width="2"/>
+    <text x="154" y="72" text-anchor="middle" font-size="10" fill="#1E3A6E">Number Line</text>
+    <rect x="480" y="52" width="98" height="68" rx="3" fill="#FFFFFF"/>
+    <text x="529" y="70" text-anchor="middle" font-size="10" fill="#4B2777">Odd and Even</text>
+    <text x="490" y="90" font-size="10" fill="#2F7A2F">EVEN 2 4 6 8</text><text x="490" y="106" font-size="10" fill="#B23A3A">ODD 1 3 5 7 9</text>
+    <circle cx="341" cy="30" r="0" fill="none"/>
+    <polygon points="606,60 668,40 668,250 606,240" fill="#9C6B43"/>
+    <rect x="613" y="72" width="7" height="28" fill="#E05A4F"/><rect x="622" y="70" width="7" height="29" fill="#F2C230"/><rect x="631" y="68" width="7" height="30" fill="#4A8FDD"/><rect x="642" y="66" width="7" height="30" fill="#5FAE4E"/>
+    <rect x="613" y="122" width="7" height="28" fill="#9B6BD3"/><rect x="623" y="120" width="7" height="29" fill="#E05A4F"/><rect x="633" y="119" width="7" height="29" fill="#4A8FDD"/>
+    <circle cx="640" cy="30" r="12" fill="#4A8FDD"/>
+    <polygon points="120,310 560,310 650,460 30,460" fill="#DEB887"/>
+    <polygon points="190,318 490,318 530,395 150,395" fill="#FFFDF4"/>
+    <polygon points="195,321 485,321 524,392 156,392" fill="#6DBE5A"/>
+    <g fill="#E05A4F"><rect x="210" y="326" width="24" height="12"/><rect x="330" y="326" width="24" height="12"/><rect x="420" y="326" width="24" height="12"/></g>
+    <g fill="#F2C230"><rect x="240" y="326" width="24" height="12"/><rect x="360" y="326" width="24" height="12"/><rect x="200" y="350" width="27" height="13"/><rect x="380" y="350" width="27" height="13"/></g>
+    <g fill="#4A8FDD"><rect x="270" y="326" width="24" height="12"/><rect x="390" y="326" width="24" height="12"/><rect x="235" y="350" width="27" height="13"/><rect x="415" y="350" width="27" height="13"/><rect x="250" y="373" width="30" height="14"/></g>
+    <g fill="#9B6BD3"><rect x="300" y="326" width="24" height="12"/><rect x="270" y="350" width="27" height="13"/><rect x="450" y="350" width="27" height="13"/><rect x="288" y="373" width="30" height="14"/><rect x="410" y="373" width="30" height="14"/></g>
+    <g fill="#2F3A6E"><rect x="305" y="350" width="27" height="13"/><rect x="326" y="373" width="30" height="14"/></g>
+    <rect x="448" y="326" width="34" height="12" fill="#F59A1E"/>
+    <rect x="176" y="373" width="66" height="14" fill="#FFFFFF"/><rect x="364" y="373" width="38" height="14" fill="#5FAE4E"/>
+    <circle cx="210" cy="370" r="7" fill="#E6266F"/>
+    <rect x="232" y="408" width="30" height="30" rx="4" fill="#FFFFFF" stroke="#333333" stroke-width="1"/>
+    <circle cx="241" cy="417" r="3" fill="#222222"/><circle cx="253" cy="429" r="3" fill="#222222"/><circle cx="247" cy="423" r="3" fill="#222222"/>
+    <rect x="300" y="420" width="22" height="8" fill="#333A55"/><rect x="309" y="400" width="4" height="22" fill="#333A55"/><circle cx="311" cy="398" r="9" fill="#F2C230"/>
+    <rect x="148" y="282" width="6" height="40" fill="#7A5236"/>
+    <circle cx="151" cy="262" r="34" fill="#333A55"/>
+    <path d="M151 262 L151 230 A32 32 0 0 1 183 262 Z" fill="#5FAE4E"/>
+    <path d="M151 262 L183 262 A32 32 0 0 1 151 294 Z" fill="#4A8FDD"/>
+    <path d="M151 262 L151 294 A32 32 0 0 1 119 262 Z" fill="#9B6BD3"/>
+    <path d="M151 262 L119 262 A32 32 0 0 1 151 230 Z" fill="#E05A4F"/>
+    <polygon points="145,224 157,224 151,236" fill="#D11A1A"/>
+    <g transform="translate(118 330)">
+      <ellipse cx="0" cy="62" rx="24" ry="6" fill="#4A8FDD"/>
+      <rect x="-16" y="24" width="32" height="36" rx="4" fill="#F5F7FF"/><circle cx="0" cy="38" r="5" fill="#33D9F2"/>
+      <rect x="-24" y="-14" width="48" height="36" rx="6" fill="#F5F7FF" stroke="#4A8FDD" stroke-width="2"/>
+      <rect x="-18" y="-7" width="36" height="20" rx="4" fill="#1A1F40"/>
+      <circle cx="-8" cy="3" r="4" fill="#33D9F2"/><circle cx="8" cy="3" r="4" fill="#33D9F2"/>
+      <line x1="0" y1="-14" x2="0" y2="-22" stroke="#1A1F40" stroke-width="2"/><circle cx="0" cy="-25" r="4" fill="#F2C230"/>
+    </g>
+    <rect x="70" y="150" width="120" height="62" rx="8" fill="#FFFDF4" stroke="#283F80" stroke-width="2"/>
+    <text x="130" y="173" text-anchor="middle" font-size="11" fill="#283F80" font-weight="bold">Robo</text>
+    <text x="130" y="194" text-anchor="middle" font-size="11" fill="#1A1F33">I think it's 14!</text>
+    <rect x="236" y="168" width="210" height="112" rx="8" fill="#FFFDF4" stroke="#283F80" stroke-width="2"/>
+    <rect x="236" y="168" width="210" height="22" rx="8" fill="#283F80"/>
+    <text x="246" y="183" font-size="11" fill="#FFFFFF">Level 3</text><text x="436" y="183" text-anchor="end" font-size="11" fill="#FFD61A">Stars: 4</text>
+    <text x="341" y="222" text-anchor="middle" font-size="22" fill="#1A1F33" font-weight="bold">8 + 5 = ?</text>
+    <g fill="#296BD9"><rect x="250" y="240" width="40" height="26" rx="5"/><rect x="298" y="240" width="40" height="26" rx="5"/><rect x="346" y="240" width="40" height="26" rx="5"/><rect x="394" y="240" width="40" height="26" rx="5"/></g>
+    <g font-size="12" fill="#FFFFFF" text-anchor="middle"><text x="270" y="258">11</text><text x="318" y="258">12</text><text x="366" y="258">13</text><text x="414" y="258">14</text></g>
+    <rect x="560" y="200" width="90" height="100" rx="6" fill="#FFFDF4" stroke="#283F80" stroke-width="2"/>
+    <text x="605" y="218" text-anchor="middle" font-size="10" fill="#283F80" font-weight="bold">Menu</text>
+    <rect x="570" y="226" width="70" height="16" rx="4" fill="#ED8014"/><rect x="570" y="248" width="70" height="16" rx="4" fill="#296BD9"/><rect x="570" y="270" width="70" height="16" rx="4" fill="#737A8C"/>
+  </svg>
+  <text x="1800" y="1210" font-size="32" fill="#4A5570" text-anchor="middle" font-style="italic">The classroom from the player's seat (illustration)</text>
+  <g font-size="36" fill="#1A2238">
+    <circle cx="1320" cy="1290" r="16" fill="#5FAE4E"/><text x="1355" y="1302">LEFT side: things you touch – Robo, die, handle, wheel</text>
+    <circle cx="1320" cy="1355" r="16" fill="#4A8FDD"/><text x="1355" y="1367">RIGHT side: the menu for the pointing ray</text>
+    <circle cx="1320" cy="1420" r="16" fill="#F2C230"/><text x="1355" y="1432">Starts at the classroom door, then a fade to your seat</text>
+  </g>
+
+  <!-- Adaptive difficulty -->
+  <rect x="1250" y="1540" width="1100" height="750" rx="30" fill="#FFFFFF"/>
+  <circle cx="1330" cy="1620" r="42" fill="#E05A4F"/>
+  <polygon points="1308,1640 1352,1640 1352,1598" fill="#FFFFFF"/>
+  <text x="1395" y="1638" font-size="54" font-weight="bold" fill="#1F3A7A">Adaptive difficulty</text>
+  <!-- staircase -->
+  <g font-size="34" font-weight="bold" fill="#FFFFFF" text-anchor="middle">
+    <rect x="1310" y="1940" width="230" height="100" rx="14" fill="#5FAE4E"/><text x="1425" y="1982">Level 1</text>
+    <rect x="1560" y="1860" width="230" height="180" rx="14" fill="#4A8FDD"/><text x="1675" y="1918">Level 2</text>
+    <rect x="1810" y="1770" width="230" height="270" rx="14" fill="#9B6BD3"/><text x="1925" y="1828">Level 3</text>
+    <rect x="2060" y="1680" width="230" height="360" rx="14" fill="#E05A4F"/><text x="2175" y="1738">Level 4</text>
+  </g>
+  <g font-size="30" fill="#FFFFFF" text-anchor="middle">
+    <text x="1425" y="2024">3 + 2</text>
+    <text x="1675" y="1966">6 + 4</text><text x="1675" y="2004">within 10</text>
+    <text x="1925" y="1876">12 + 5</text><text x="1925" y="1914">within 20</text>
+    <text x="2175" y="1786">8 + 7</text><text x="2175" y="1824">crosses 10</text>
+  </g>
+  <g font-size="34" fill="#1A2238">
+    <text x="1310" y="2100">2 right in a row → level up · 2 wrong → level down</text>
+    <text x="1310" y="2150">Each third of the board unlocks a higher level,</text>
+    <text x="1310" y="2196">so the hardest problems wait near FINISH.</text>
+    <text x="1310" y="2250" font-weight="bold" fill="#1F3A7A">All numbers stay within 20 (EDN 303 advice).</text>
+  </g>
+
+  <!-- ============================ Column 3 ============================ -->
+  <!-- Robo -->
+  <rect x="2420" y="420" width="1100" height="800" rx="30" fill="#FFFFFF"/>
+  <circle cx="2500" cy="500" r="42" fill="#9B6BD3"/>
+  <rect x="2482" y="484" width="36" height="30" rx="6" fill="#FFFFFF"/><circle cx="2492" cy="499" r="5" fill="#9B6BD3"/><circle cx="2508" cy="499" r="5" fill="#9B6BD3"/>
+  <text x="2565" y="518" font-size="54" font-weight="bold" fill="#1F3A7A">Meet Robo, the AI Helper</text>
+  <!-- Robo drawing -->
+  <g transform="translate(2620 800)">
+    <ellipse cx="0" cy="270" rx="120" ry="28" fill="#4A8FDD"/>
+    <rect x="-80" y="80" width="160" height="180" rx="20" fill="#F5F7FF" stroke="#4A8FDD" stroke-width="6"/>
+    <circle cx="0" cy="150" r="26" fill="#33D9F2"/>
+    <rect x="-118" y="100" width="34" height="120" rx="14" fill="#4A8FDD"/>
+    <rect x="84" y="20" width="34" height="120" rx="14" fill="#4A8FDD" transform="rotate(25 101 80)"/>
+    <rect x="-120" y="-120" width="240" height="180" rx="30" fill="#F5F7FF" stroke="#4A8FDD" stroke-width="6"/>
+    <rect x="-92" y="-90" width="184" height="116" rx="20" fill="#1A1F40"/>
+    <circle cx="-42" cy="-46" r="18" fill="#33D9F2"/><circle cx="42" cy="-46" r="18" fill="#33D9F2"/>
+    <path d="M -36 -6 Q 0 18 36 -6" stroke="#33D9F2" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <line x1="0" y1="-120" x2="0" y2="-160" stroke="#1A1F40" stroke-width="8"/><circle cx="0" cy="-172" r="18" fill="#F2C230"/>
+  </g>
+  <rect x="2470" y="575" width="330" height="80" rx="22" fill="#FFF4D1"/>
+  <text x="2635" y="628" font-size="34" font-weight="bold" fill="#1F3A7A" text-anchor="middle">"I think it's 14!"</text>
+  <g font-size="36" fill="#1A2238">
+    <text x="2850" y="640" font-weight="bold" fill="#1F3A7A">Not real AI –</text>
+    <text x="2850" y="688">a simple script that</text>
+    <text x="2850" y="736">knows the answer.</text>
+    <text x="2850" y="820" font-weight="bold" fill="#1F3A7A">Touch Robo</text>
+    <text x="2850" y="868">with your LEFT hand</text>
+    <text x="2850" y="916">to hear its idea.</text>
+    <text x="2850" y="1000" font-weight="bold" fill="#1F3A7A">Wrong about 1 in 3,</text>
+    <text x="2850" y="1048">never twice in a row.</text>
+    <text x="2850" y="1132" font-weight="bold" fill="#1F3A7A">Kind mistakes:</text>
+    <text x="2850" y="1180">"Thank you for helping me!"</text>
+  </g>
+
+  <!-- Learning from mistakes -->
+  <rect x="2420" y="1260" width="1100" height="500" rx="30" fill="#FFFFFF"/>
+  <circle cx="2500" cy="1340" r="42" fill="#F2C230"/>
+  <circle cx="2500" cy="1340" r="18" fill="none" stroke="#1F3A7A" stroke-width="7"/>
+  <text x="2565" y="1358" font-size="54" font-weight="bold" fill="#1F3A7A">Learning from mistakes</text>
+  <text x="2470" y="1440" font-size="36" fill="#1A2238">A wrong answer shows the right one with ten frames:</text>
+  <!-- Two ten frames: 8 red + 5 blue = 13 -->
+  <g>
+    <rect x="2470" y="1480" width="430" height="182" rx="12" fill="#1F3A7A"/>
+    <rect x="2930" y="1480" width="430" height="182" rx="12" fill="#1F3A7A"/>
+    <g fill="#FFFFFF">
+      <rect x="2480" y="1490" width="74" height="76" rx="6"/><rect x="2564" y="1490" width="74" height="76" rx="6"/><rect x="2648" y="1490" width="74" height="76" rx="6"/><rect x="2732" y="1490" width="74" height="76" rx="6"/><rect x="2816" y="1490" width="74" height="76" rx="6"/>
+      <rect x="2480" y="1576" width="74" height="76" rx="6"/><rect x="2564" y="1576" width="74" height="76" rx="6"/><rect x="2648" y="1576" width="74" height="76" rx="6"/><rect x="2732" y="1576" width="74" height="76" rx="6"/><rect x="2816" y="1576" width="74" height="76" rx="6"/>
+      <rect x="2940" y="1490" width="74" height="76" rx="6"/><rect x="3024" y="1490" width="74" height="76" rx="6"/><rect x="3108" y="1490" width="74" height="76" rx="6"/><rect x="3192" y="1490" width="74" height="76" rx="6"/><rect x="3276" y="1490" width="74" height="76" rx="6"/>
+      <rect x="2940" y="1576" width="74" height="76" rx="6"/><rect x="3024" y="1576" width="74" height="76" rx="6"/><rect x="3108" y="1576" width="74" height="76" rx="6"/><rect x="3192" y="1576" width="74" height="76" rx="6"/><rect x="3276" y="1576" width="74" height="76" rx="6"/>
+    </g>
+    <g fill="#E05A4F">
+      <circle cx="2517" cy="1528" r="28"/><circle cx="2601" cy="1528" r="28"/><circle cx="2685" cy="1528" r="28"/><circle cx="2769" cy="1528" r="28"/><circle cx="2853" cy="1528" r="28"/>
+      <circle cx="2517" cy="1614" r="28"/><circle cx="2601" cy="1614" r="28"/><circle cx="2685" cy="1614" r="28"/>
+    </g>
+    <g fill="#4A8FDD">
+      <circle cx="2769" cy="1614" r="28"/><circle cx="2853" cy="1614" r="28"/>
+      <circle cx="2977" cy="1528" r="28"/><circle cx="3061" cy="1528" r="28"/><circle cx="3145" cy="1528" r="28"/>
+    </g>
+  </g>
+  <text x="2470" y="1722" font-size="40" font-weight="bold" fill="#1F3A7A">8 + 5 = 13: fill ten, then 3 more.</text>
+
+  <!-- Built for kids -->
+  <rect x="2420" y="1800" width="560" height="490" rx="30" fill="#FFFFFF"/>
+  <text x="2470" y="1878" font-size="46" font-weight="bold" fill="#1F3A7A">Built for kids</text>
+  <g font-size="32" fill="#1A2238">
+    <circle cx="2482" cy="1937" r="12" fill="#5FAE4E"/><text x="2510" y="1948">Read-aloud (English)</text>
+    <circle cx="2482" cy="1997" r="12" fill="#4A8FDD"/><text x="2510" y="2008">EN · ES · TR · FR</text>
+    <circle cx="2482" cy="2057" r="12" fill="#F2C230"/><text x="2510" y="2068">Seated, no walking</text>
+    <circle cx="2482" cy="2117" r="12" fill="#E05A4F"/><text x="2510" y="2128">Big text, sound optional</text>
+  </g>
+  <text x="2470" y="2200" font-size="28" fill="#4A5570">Meta Quest 2/3 · Unity 6</text>
+  <text x="2470" y="2244" font-size="28" fill="#4A5570">OpenXR · XR Interaction Toolkit</text>
+
+  <!-- QR code space (left empty on purpose) -->
+  <rect x="3020" y="1800" width="500" height="490" rx="30" fill="#FFFFFF"/>
+  <rect x="3060" y="1835" width="420" height="380" rx="12" fill="#FFFFFF" stroke="#B9C6DA" stroke-width="4" stroke-dasharray="18 14"/>
+  <text x="3270" y="2262" font-size="30" font-weight="bold" fill="#1F3A7A" text-anchor="middle">Scan: code, video, paper</text>
+
+  <!-- ============================ Footer ============================ -->
+  <text x="80" y="2350" font-size="24" fill="#4A5570">[1] R. S. Siegler and G. B. Ramani, "Playing linear numerical board games promotes low-income children's numerical development," Developmental Science, 2008.   [2] D. Long and B. Magerko, "What is AI literacy? Competencies and design considerations," CHI 2020.</text>
+</svg>
